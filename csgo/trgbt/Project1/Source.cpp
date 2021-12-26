@@ -11,6 +11,8 @@
 
 uintptr_t moduleBase;
 
+INPUT inputs[2] = {};
+
 template<typename T> T RPM(uintptr_t address) {
     try { return *(T*)address; }
     catch (...) { return T(); }
@@ -55,28 +57,16 @@ void BunnyHop()
 {
     if (flag(getLocalPlayer()) == 257)
     {
-        INPUT inputs[2] = {};
-        inputs[0].type = INPUT_KEYBOARD;
-        inputs[0].ki.time = 0;
-        inputs[0].ki.wVk = 0;
-        inputs[0].ki.dwExtraInfo = 0;
-        inputs[0].ki.dwFlags = KEYEVENTF_SCANCODE;
-        inputs[0].ki.wScan = 0x1B;
-
-        inputs[1].type = INPUT_KEYBOARD;
-        inputs[1].ki.time = 0;
-        inputs[1].ki.wVk = 0;
-        inputs[1].ki.dwExtraInfo = 0;
-        inputs[1].ki.wScan = 0x1B;
-        inputs[1].ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
-        
-        
 
         UINT uSent = SendInput(ARRAYSIZE(inputs), inputs, sizeof(INPUT));
         Sleep(50);
     }
 }
 
+void WallHack()
+{
+
+}
 
 DWORD WINAPI MainThread(HMODULE hModule)
 {
@@ -88,24 +78,50 @@ DWORD WINAPI MainThread(HMODULE hModule)
     std::cout << "Welcome\n";
 
     moduleBase = (DWORD)GetModuleHandle("client.dll");
+    
+    //---- VARIABLES PARA BUNNYHOP-----//
+    inputs[0].type = INPUT_KEYBOARD;
+    inputs[0].ki.time = 0;
+    inputs[0].ki.wVk = 0;
+    inputs[0].ki.dwExtraInfo = 0;
+    inputs[0].ki.dwFlags = KEYEVENTF_SCANCODE;
+    inputs[0].ki.wScan = 0x1B;
 
+    inputs[1].type = INPUT_KEYBOARD;
+    inputs[1].ki.time = 0;
+    inputs[1].ki.wVk = 0;
+    inputs[1].ki.dwExtraInfo = 0;
+    inputs[1].ki.wScan = 0x1B;
+    inputs[1].ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
 
+    bool pause = false;
 
     while (true)
     {
-        if (GetAsyncKeyState(VK_END) & 1)
+        if (GetAsyncKeyState(VK_F3) & 1)
         {
-            break;
+            pause = !pause;
         }
-
-        if (GetAsyncKeyState(VK_MENU /*alt key*/))
+        if (!pause)
         {
-            Trigger();
+            if (GetAsyncKeyState(VK_END) & 1)
+            {
+                break;
+            }
+
+            if (GetAsyncKeyState(VK_MENU /*alt key*/))
+            {
+                Trigger();
+            }
+
+            if (GetAsyncKeyState(VK_SPACE))
+            {
+                BunnyHop();
+            }
         }
-
-        if (GetAsyncKeyState(VK_SPACE))
+        else
         {
-            BunnyHop();
+            Sleep(500);
         }
     }
 
