@@ -141,12 +141,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="hack.cpp" />
     <ClCompile Include="drawing.cpp" />
     <ClCompile Include="dx.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="hook.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="hack.h" />
     <ClInclude Include="drawing.h" />
     <ClInclude Include="dx.h" />
     <ClInclude Include="hook.h" />

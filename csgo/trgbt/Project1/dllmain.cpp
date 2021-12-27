@@ -16,7 +16,7 @@ template<typename T> T RPM(uintptr_t address) {
     try { return *(T*)address; }
     catch (...) { return T(); }
 }
-
+/*
 uintptr_t getLocalPlayer() { //This will get the address to localplayer. 
     return RPM< uintptr_t>(moduleBase + dwLocalPlayer);
 }
@@ -78,18 +78,37 @@ void BunnyHop()
         Sleep(50);
     }
 }
-
+*/
 void* d3d9Device[119];
 BYTE EndSceneBytes[7]{ 0 };
 tEndScene oEndScene = nullptr;
 extern LPDIRECT3DDEVICE9 pDevice = nullptr;
+Hack* hack;
 
 void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
     if (!pDevice)
         pDevice = o_pDevice;
 
+    for (int i = 1; i < 32; i++) {
+        Ent* curEnt = hack->entList->ents[i].ent;
+        if (!hack->CheckValidEnt(curEnt))
+            continue;
+
+        D3DCOLOR color;
+        if (curEnt->iTeamNum == hack->localEnt->iTeamNum)
+            color = D3DCOLOR_ARGB(255, 0, 255, 0);
+        else
+            color = D3DCOLOR_ARGB(255, 255, 0, 0);
+
+        Vec2 entPos2D;
+
+        if (hack->WorldToScreen(curEnt->vecOrigin, entPos2D))
+            DrawLine(entPos2D.x, entPos2D.y, windowWidth / 2, windowHeight, 2, color);
+    }
     //aqui se dibuja
-    DrawFilledRect(25, 25, 100, 100, D3DCOLOR_ARGB(255, 255, 255, 255));
+    //DrawFilledRect(25, 25, 100, 100, D3DCOLOR_ARGB(255, 255, 255, 255));
+    //DrawFilledRect(windowWidth / 2 - 2, windowHeight / 2 - 2, 4, 4, D3DCOLOR(255, 255, 255, 255)));
+
     oEndScene(pDevice);
 }
 
@@ -101,6 +120,10 @@ DWORD WINAPI MainThread(HMODULE hModule)
     
         oEndScene = (tEndScene)TrampHook((char*)d3d9Device[42], (char*)hkEndScene, 7);
     }
+
+    hack = new Hack();
+    hack->Init();
+
     /*
     //Create Console
     AllocConsole();
@@ -115,6 +138,7 @@ DWORD WINAPI MainThread(HMODULE hModule)
 
     while (true)
     {
+
         if (GetAsyncKeyState(VK_END) & 1)
         {
             break;
@@ -122,12 +146,12 @@ DWORD WINAPI MainThread(HMODULE hModule)
 
         if (GetAsyncKeyState(VK_MENU /*alt key*/))
         {
-            Trigger();
+            //Trigger();
         }
 
         if (GetAsyncKeyState(VK_SPACE))
         {
-            BunnyHop();
+            hack->Bunny();
         }
     }
     Patch((BYTE*)d3d9Device[42], EndSceneBytes, 7);
