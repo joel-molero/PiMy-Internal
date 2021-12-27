@@ -1,2 +1,15 @@
-﻿  Source.cpp
-  Project1.vcxproj -> D:\webpagemom\VAC-Bypass\csgo\trgbt\Debug\Project1.dll
+﻿  drawing.cpp
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(8,33): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(9,34): warning C4081: se esperaba 'newline'; se encontró ';'
+  dx.cpp
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(8,33): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(9,34): warning C4081: se esperaba 'newline'; se encontró ';'
+  dllmain.cpp
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(8,33): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(9,34): warning C4081: se esperaba 'newline'; se encontró ';'
+  hook.cpp
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(8,33): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(9,34): warning C4081: se esperaba 'newline'; se encontró ';'
+  Generando código...
+D:\PiMy internal\csgo\trgbt\Project1\hook.cpp(19): warning C4715: 'Hook': no todas las rutas de acceso de control devuelven un valor
+  Project1.vcxproj -> D:\PiMy internal\csgo\trgbt\Debug\Project1.dll
