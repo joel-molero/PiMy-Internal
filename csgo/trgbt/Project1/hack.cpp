@@ -4,8 +4,8 @@ void Hack::Init() {
 	client = (uintptr_t)GetModuleHandle("client.dll");
 	engine = (uintptr_t)GetModuleHandle("engine.dll");
 	entList = (EntList*)(client + dwEntityList);
-	localEnt = entList->ents[0].ent;
-	getLocalPlayer = (uintptr_t)(client + dwLocalPlayer);
+	localEnt = entList->ents[0].ent; //(*entList).ents[0]
+	getLocalPlayer = (uintptr_t*)(client + dwLocalPlayer);
 }
 
 void Hack::Update() {
@@ -13,8 +13,8 @@ void Hack::Update() {
 }
 
 void Hack::Bunny() {
-	int flag = *(int*)(getLocalPlayer + m_fFlags);
-	if (flag == 257)
+	int *flag = (int*)(*getLocalPlayer + m_fFlags);
+	if (*flag == 257)
 	{
 		INPUT inputs[2] = {};
 		inputs[0].type = INPUT_KEYBOARD;
@@ -71,4 +71,13 @@ bool Hack::WorldToScreen(Vec3 pos, Vec2& screen) {
 	screen.x = (windowWidth / 2 * NDC.x) + (NDC.x + windowWidth / 2);
 	screen.y = -(windowHeight / 2 * NDC.y) + (NDC.y + windowHeight / 2);
 	return true;
+}
+
+Vec3 Hack::GetBonePos(Ent* ent, int bone) {
+	uintptr_t bonePtr = ent->boneMatrix;
+	Vec3 bonePos;
+	bonePos.x = *(float*)(bonePtr + 0x30 * bone + 0x0C);
+	bonePos.y = *(float*)(bonePtr + 0x30 * bone + 0x1C);
+	bonePos.z = *(float*)(bonePtr + 0x30 * bone + 0x2C);
+	return bonePos;
 }

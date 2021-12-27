@@ -25,6 +25,12 @@ public:
 		DEFINE_MEMBER_N(Vec3, vecOrigin, 0x138);
 
 		DEFINE_MEMBER_N(int, iTeamNum, 0xF4);
+
+		DEFINE_MEMBER_N(int, boneMatrix, 0x26A8);
+
+		DEFINE_MEMBER_N(int, ArmorValue, 0x117CC);
+
+		DEFINE_MEMBER_N(Vec3, aimPunchAngle, 0x303C);
 	};
 };
 
@@ -48,10 +54,18 @@ public:
 
 	uintptr_t engine;
 	uintptr_t client;
-	uintptr_t getLocalPlayer;
+	uintptr_t* getLocalPlayer;
 	//uintptr_t* player;
 	Ent* localEnt;
 	EntList* entList;
+
+	ID3DXLine* LineL;
+
+	Vec2 crosshair2D;
+	int crosshairSizeL = 44;
+	int crosshairSizeR = 44;
+	int crosshairSizeT = 44;
+	int crosshairSizeB = 44;
 
 	float viewMatrix[16];
 
@@ -60,5 +74,6 @@ public:
 	void Update();
 	bool CheckValidEnt(Ent* ent);
 	bool WorldToScreen(Vec3 pos, Vec2& screen);
+	Vec3 GetBonePos(Ent* ent, int bone);
 
 };

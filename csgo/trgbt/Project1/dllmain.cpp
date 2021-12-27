@@ -107,8 +107,26 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
     }
     //aqui se dibuja
     //DrawFilledRect(25, 25, 100, 100, D3DCOLOR_ARGB(255, 255, 255, 255));
-    //DrawFilledRect(windowWidth / 2 - 2, windowHeight / 2 - 2, 4, 4, D3DCOLOR(255, 255, 255, 255)));
+    //DrawFilledRect(windowWidth / 2 - 2, windowHeight / 2 - 2, 4, 4, D3DCOLOR_ARGB(255, 255, 255, 255));
+    hack->crosshair2D.x = windowWidth / 2;
+    hack->crosshair2D.y = windowHeight / 2;
 
+    Vec2 l, r, t, b;
+    l = r = t = b = hack->crosshair2D;
+    l.x -= hack->crosshairSizeL;
+    r.x += hack->crosshairSizeR;
+    b.y += hack->crosshairSizeT;
+    t.y -= hack->crosshairSizeB;
+
+    DrawLine(r, t, 2, D3DCOLOR_ARGB(115, 132, 13, 255));
+    DrawLine(l, t, 2, D3DCOLOR_ARGB(115, 255, 0, 0));
+    DrawLine(r, b, 2, D3DCOLOR_ARGB(115, 0, 255, 0));
+    DrawLine(l, b, 2, D3DCOLOR_ARGB(115, 0, 0, 255));
+    DrawLine(t, b, 2, D3DCOLOR_ARGB(165, 255, 255, 255));
+    DrawLine(l, r, 2, D3DCOLOR_ARGB(165, 255, 255, 255));
+    //DrawLine(t, l, 2, D3DCOLOR_ARGB(135, 32, 200, 255));
+    //DrawLine(t, b, 66, D3DCOLOR_ARGB(0, 32, 20, 255));
+    
     oEndScene(pDevice);
 }
 
@@ -138,7 +156,7 @@ DWORD WINAPI MainThread(HMODULE hModule)
 
     while (true)
     {
-
+        hack->Update();
         if (GetAsyncKeyState(VK_END) & 1)
         {
             break;
