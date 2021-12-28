@@ -4,10 +4,11 @@
 #define STR_MERGE(a, b) STR_MERGE_IMPL(a, b)
 #define MAKE_PAD(size) STR_MERGE(_pad, __COUNTER__)[size]
 #define DEFINE_MEMBER_N(type, name, offset) struct {unsigned char MAKE_PAD(offset); type name;}
-
+/*
 #define Cabeza 8
 #define Cuello 7
 #define Pelvis 0
+<<<<<<< HEAD
 #define HombroD 39
 #define CodoD 40
 #define ManoD 41
@@ -19,6 +20,19 @@
 #define RodillaI 71
 #define PieI 72
 
+=======
+#define HombroD 38
+#define CodoD 39
+#define ManoD 40
+#define HombroI 10
+#define CodoI 11
+#define ManoI 12
+#define RodillaD 73
+#define PieD 74
+#define RodillaI 66
+#define PieI 67
+*/
+>>>>>>> 992283c29ab1145db5b73a3cbda09dac84e97ad9
 
 #define Cabeza_i 0
 #define Cuello_i 1
@@ -34,6 +48,28 @@
 #define RodillaI_i 11
 #define PieI_i 12
 
+
+struct Model_Name {
+	const char* Name;
+	Bone_Order* Bone_Distribution;
+};
+struct Bone_Order{
+	char Cabeza;
+	char Cuello;
+	char Pelvis;
+	char HombroD;
+	char CodoD;
+	char ManoD;
+	char HombroI;
+	char CodoI;
+	char ManoI;
+	char RodillaD;
+	char PieD;
+	char RodillaI;
+	char PieI;
+
+};
+
 struct Vec2 {
 	float x, y;
 };
@@ -42,6 +78,11 @@ struct Vec3 {
 };
 struct Vec4 {
 	float x, y, z, w;
+};
+
+struct model_t {
+	void* fnHandle;
+	char szName[260];
 };
 
 class Ent {
@@ -89,6 +130,9 @@ public:
 	EntList* entList;
 
 	ID3DXLine* LineL;
+
+	Bone_Order Bones_Orders[9];
+	Model_Name Model_names[14];
 
 	Vec2 crosshair2D;
 	int crosshairSizeL = 44;
