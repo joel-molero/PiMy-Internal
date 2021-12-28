@@ -4,15 +4,12 @@
 #include <WinUser.h>
 
 #define m_iTeamNum 0xF4
-#define dwLocalPlayer 0xDB458C
-#define dwEntityList 0x4DCFA94
+#define dwLocalPlayer 0xDB558C
+#define dwEntityList 0x4DD0AB4
 #define m_iCrosshairId 0x11838
 #define m_fFlags 0x104
 #define dwForceJump 0x527998C
-
-
-
-
+#define m_pStudioHdr 0x2950
 
 uintptr_t moduleBase;
 
@@ -99,7 +96,16 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
         if (!hack->CheckValidEnt(curEnt))
             continue;
 
+
+        uintptr_t* aux = (uintptr_t*)((uintptr_t)curEnt + 0x2950);
+        uintptr_t* aux2 = (uintptr_t*)(*aux);
+        studiohdr_t* studio_hdr = (studiohdr_t*)(*aux2);
+
+
+        //int numBones = studio_hdr->bone_count;
+
         D3DCOLOR color;
+
         if (curEnt->iTeamNum == hack->localEnt->iTeamNum)
             color = D3DCOLOR_ARGB(255, 0, 255, 0);
         else

@@ -6,6 +6,7 @@ void Hack::Init() {
 	entList = (EntList*)(client + dwEntityList);
 	localEnt = entList->ents[0].ent; //(*entList).ents[0]
 	getLocalPlayer = (uintptr_t*)(client + dwLocalPlayer);
+	/*
 
 	Bones_Orders[0].Cabeza = 8;
 	Bones_Orders[0].Cuello = 7;
@@ -180,7 +181,8 @@ void Hack::Init() {
 	for (int i = 0; i < 13; i++)
 	{
 		Bones[i] = aux[i];
-	}*/
+	}
+	*/
 }
 
 void Hack::Update() {
@@ -227,6 +229,7 @@ bool Hack::CheckValidEnt(Ent* ent) {
 		return false;
 	return true;
 }
+
 
 bool Hack::WorldToScreen(Vec3 pos, Vec2& screen) {
 	Vec4 clipCoords;
