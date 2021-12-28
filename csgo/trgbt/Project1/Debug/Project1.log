@@ -1,13 +1,17 @@
-﻿  hack.cpp
+﻿  dllmain.cpp
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(9,33): warning C4081: se esperaba 'newline'; se encontró ';'
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(11,34): warning C4081: se esperaba 'newline'; se encontró ';'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(68,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(47): message : vea la declaración de 'Ent'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(89,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(68): message : vea la declaración de 'Ent'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\dllmain.cpp(135,42): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\dllmain.cpp(135,30): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\dllmain.cpp(140,39): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\dllmain.cpp(141,40): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
   drawing.cpp
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(9,33): warning C4081: se esperaba 'newline'; se encontró ';'
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(11,34): warning C4081: se esperaba 'newline'; se encontró ';'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(68,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(47): message : vea la declaración de 'Ent'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(89,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(68): message : vea la declaración de 'Ent'
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(16,28): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(16,24): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(17,28): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
@@ -20,22 +24,34 @@ C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1
   dx.cpp
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(9,33): warning C4081: se esperaba 'newline'; se encontró ';'
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(11,34): warning C4081: se esperaba 'newline'; se encontró ';'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(68,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(47): message : vea la declaración de 'Ent'
-  dllmain.cpp
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(89,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(68): message : vea la declaración de 'Ent'
+  hack.cpp
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(9,33): warning C4081: se esperaba 'newline'; se encontró ';'
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(11,34): warning C4081: se esperaba 'newline'; se encontró ';'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(68,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(47): message : vea la declaración de 'Ent'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\dllmain.cpp(135,42): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\dllmain.cpp(135,30): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\dllmain.cpp(140,39): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\dllmain.cpp(141,40): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(89,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(68): message : vea la declaración de 'Ent'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,6): error C2062: tipo 'int' inesperado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,18): error C2143: error de sintaxis: falta ';' delante de '{'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,20): error C2065: 'Cabeza': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,28): error C2065: 'Cuello': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,36): error C2065: 'Pelvis': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,44): error C2065: 'HombroD': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,53): error C2065: 'CodoD': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,60): error C2065: 'ManoD': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,67): error C2065: 'HombroI': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,76): error C2065: 'CodoI': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,83): error C2065: 'ManoI': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,90): error C2065: 'RodillaD': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,100): error C2065: 'PieD': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,106): error C2065: 'RodillaI': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,116): error C2065: 'PieI': identificador no declarado
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(14,121): error C2143: error de sintaxis: falta ';' delante de '}'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.cpp(18,14): error C2065: 'aux': identificador no declarado
   hook.cpp
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(9,33): warning C4081: se esperaba 'newline'; se encontró ';'
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(11,34): warning C4081: se esperaba 'newline'; se encontró ';'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(68,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(47): message : vea la declaración de 'Ent'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(89,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(68): message : vea la declaración de 'Ent'
   Generando código...
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hook.cpp(19): warning C4715: 'Hook': no todas las rutas de acceso de control devuelven un valor
-  Project1.vcxproj -> C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Debug\Project1.dll
