@@ -5,6 +5,35 @@
 #define MAKE_PAD(size) STR_MERGE(_pad, __COUNTER__)[size]
 #define DEFINE_MEMBER_N(type, name, offset) struct {unsigned char MAKE_PAD(offset); type name;}
 
+#define Cabeza 8
+#define Cuello 7
+#define Pelvis 0
+#define HombroD 38
+#define CodoD 39
+#define ManoD 40
+#define HombroI 10
+#define CodoI 11
+#define ManoI 12
+#define RodillaD 73
+#define PieD 74
+#define RodillaI 66
+#define PieI 67
+
+
+#define Cabeza_i 0
+#define Cuello_i 1
+#define Pelvis_i 2
+#define HombroD_i 3
+#define CodoD_i 4
+#define ManoD_i 5
+#define HombroI_i 6
+#define CodoI_i 7
+#define ManoI_i 8
+#define RodillaD_i 9
+#define PieD_i 10
+#define RodillaI_i 11
+#define PieI_i 12
+
 struct Vec2 {
 	float x, y;
 };
@@ -68,6 +97,8 @@ public:
 	int crosshairSizeB = 44;
 
 	float viewMatrix[16];
+
+	int Bones[13];
 
 	void Bunny();
 	void Init();

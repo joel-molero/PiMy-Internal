@@ -6,6 +6,13 @@ void Hack::Init() {
 	entList = (EntList*)(client + dwEntityList);
 	localEnt = entList->ents[0].ent; //(*entList).ents[0]
 	getLocalPlayer = (uintptr_t*)(client + dwLocalPlayer);
+
+	int aux [13]  = { Cabeza, Cuello, Pelvis, HombroD, CodoD, ManoD, HombroI, CodoI, ManoI, RodillaD, PieD, RodillaI, PieI };
+
+	for (int i = 0; i < 13; i++)
+	{
+		Bones[i] = aux[i];
+	}
 }
 
 void Hack::Update() {
