@@ -8,16 +8,16 @@
 #define Cabeza 8
 #define Cuello 7
 #define Pelvis 0
-#define HombroD 38
-#define CodoD 39
-#define ManoD 40
-#define HombroI 10
-#define CodoI 11
-#define ManoI 12
-#define RodillaD 73
-#define PieD 74
-#define RodillaI 66
-#define PieI 67
+#define HombroD 39
+#define CodoD 40
+#define ManoD 41
+#define HombroI 11
+#define CodoI 12
+#define ManoI 13
+#define RodillaD 80
+#define PieD 81
+#define RodillaI 71
+#define PieI 72
 
 
 #define Cabeza_i 0

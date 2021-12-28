@@ -106,6 +106,7 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
             color = D3DCOLOR_ARGB(255, 255, 0, 0);
 
         Vec2 entPos2D;
+        
         bool lodibuja = true;
         for (int i = 0; i < 13; i++)
         {
@@ -117,18 +118,18 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
         }
         if (lodibuja)
         {
-            DrawLine(Coords_bones[Cabeza_i], Coords_bones[Cuello_i], 2, color);
-            DrawLine(Coords_bones[Pelvis_i], Coords_bones[Cuello_i], 2, color);
-            DrawLine(Coords_bones[HombroD_i], Coords_bones[Cuello_i], 2, color);
-            DrawLine(Coords_bones[HombroI_i], Coords_bones[Cuello_i], 2, color);
-            DrawLine(Coords_bones[HombroD_i], Coords_bones[CodoD_i], 2, color);
-            DrawLine(Coords_bones[HombroI_i], Coords_bones[CodoI_i], 2, color);
-            DrawLine(Coords_bones[ManoD_i], Coords_bones[CodoD_i], 2, color);
-            DrawLine(Coords_bones[ManoI_i], Coords_bones[CodoI_i], 2, color);
-            DrawLine(Coords_bones[Pelvis_i], Coords_bones[RodillaI_i], 2, color);
-            DrawLine(Coords_bones[Pelvis_i], Coords_bones[RodillaD_i], 2, color);
-            DrawLine(Coords_bones[PieI_i], Coords_bones[RodillaI_i], 2, color);
-            DrawLine(Coords_bones[PieD_i], Coords_bones[RodillaD_i], 2, color);
+            DrawLine(Coords_bones[Cabeza_i], Coords_bones[Cuello_i], 10, color);
+            DrawLine(Coords_bones[Pelvis_i], Coords_bones[Cuello_i], 10, color);
+            DrawLine(Coords_bones[HombroD_i], Coords_bones[Cuello_i], 10, color);
+            DrawLine(Coords_bones[HombroI_i], Coords_bones[Cuello_i], 10, color);
+            DrawLine(Coords_bones[HombroD_i], Coords_bones[CodoD_i], 10, color);
+            DrawLine(Coords_bones[HombroI_i], Coords_bones[CodoI_i], 10, color);
+            DrawLine(Coords_bones[ManoD_i], Coords_bones[CodoD_i], 10, color);
+            DrawLine(Coords_bones[ManoI_i], Coords_bones[CodoI_i], 10, color);
+            DrawLine(Coords_bones[Pelvis_i], Coords_bones[RodillaI_i], 10, color);
+            DrawLine(Coords_bones[Pelvis_i], Coords_bones[RodillaD_i], 10, color);
+            DrawLine(Coords_bones[PieI_i], Coords_bones[RodillaI_i], 10, color);
+            DrawLine(Coords_bones[PieD_i], Coords_bones[RodillaD_i], 10, color);
         }
 
         if (hack->WorldToScreen(curEnt->vecOrigin, entPos2D))
