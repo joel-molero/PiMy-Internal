@@ -5,7 +5,11 @@
 #define MAKE_PAD(size) STR_MERGE(_pad, __COUNTER__)[size]
 #define DEFINE_MEMBER_N(type, name, offset) struct {unsigned char MAKE_PAD(offset); type name;}
 
+#define FLOAT32_NAN_BITS     (unsigned long)0x7FC00000
+#define FLOAT32_NAN          BitsToFloat( FLOAT32_NAN_BITS )
+#define BONE_USED_BY_HITBOX            0x00000100
 
+#define VEC_T_NAN FLOAT32_NAN
 #define Cabeza_i 0
 #define Cuello_i 1
 #define Pelvis_i 2
@@ -20,13 +24,253 @@
 #define RodillaI_i 11
 #define PieI_i 12
 
+typedef float vec_t;
+
+class QAngleByValue;
+
+class QAngle
+{
+public:
+    // Members
+    vec_t x, y, z;
+
+    // Construction/destruction
+    QAngle(void);
+    QAngle(vec_t X, vec_t Y, vec_t Z);
+    //	QAngle(RadianEuler const &angles);	// evil auto type promotion!!!
+
+        // Allow pass-by-value
+    operator QAngleByValue& () { return *((QAngleByValue*)(this)); }
+    operator const QAngleByValue& () const { return *((const QAngleByValue*)(this)); }
+
+    // Initialization
+    void Init(vec_t ix = 0.0f, vec_t iy = 0.0f, vec_t iz = 0.0f);
+    void Random(vec_t minVal, vec_t maxVal);
+
+    // Got any nasty NAN's?
+    bool IsValid() const;
+    void Invalidate();
+
+    // array access...
+    vec_t operator[](int i) const;
+    vec_t& operator[](int i);
+
+    // Base address...
+    vec_t* Base();
+    vec_t const* Base() const;
+
+    // equality
+    bool operator==(const QAngle& v) const;
+    bool operator!=(const QAngle& v) const;
+
+    // arithmetic operations
+    QAngle& operator+=(const QAngle& v);
+    QAngle& operator-=(const QAngle& v);
+    QAngle& operator*=(float s);
+    QAngle& operator/=(float s);
+
+    // Get the vector's magnitude.
+    vec_t	Length() const;
+    vec_t	LengthSqr() const;
+
+    // negate the QAngle components
+    //void	Negate(); 
+
+    // No assignment operators either...
+    QAngle& operator=(const QAngle& src);
+
+#ifndef VECTOR_NO_SLOW_OPERATIONS
+    // copy constructors
+
+    // arithmetic operations
+    QAngle	operator-(void) const;
+
+    QAngle	operator+(const QAngle& v) const;
+    QAngle	operator-(const QAngle& v) const;
+    QAngle	operator*(float fl) const;
+    QAngle	operator/(float fl) const;
+#else
+
+private:
+    // No copy constructors allowed if we're in optimal mode
+    QAngle(const QAngle& vOther);
+
+#endif
+};
+
+class QAngleByValue : public QAngle
+{
+public:
+    // Construction/destruction:
+    QAngleByValue(void) : QAngle() {}
+    QAngleByValue(vec_t X, vec_t Y, vec_t Z) : QAngle(X, Y, Z) {}
+    QAngleByValue(const QAngleByValue& vOther) { *this = vOther; }
+};
+
+class Quaternion;
+
+class RadianEuler
+{
+public:
+    inline RadianEuler(void) { }
+    inline RadianEuler(vec_t X, vec_t Y, vec_t Z) { x = X; y = Y; z = Z; }
+    inline RadianEuler(Quaternion const& q);	// evil auto type promotion!!!
+    inline RadianEuler(QAngle const& angles);	// evil auto type promotion!!!
+
+    // Initialization
+    inline void Init(vec_t ix = 0.0f, vec_t iy = 0.0f, vec_t iz = 0.0f) { x = ix; y = iy; z = iz; }
+
+    //	conversion to qangle
+    QAngle ToQAngle(void) const;
+    bool IsValid() const;
+    void Invalidate();
+
+    // array access...
+    vec_t operator[](int i) const;
+    vec_t& operator[](int i);
+
+    vec_t x, y, z;
+};
+
+class Quaternion				// same data-layout as engine's vec4_t,
+{								//		which is a vec_t[4]
+public:
+    inline Quaternion(void) {
+
+        // Initialize to NAN to catch errors
+#ifdef _DEBUG
+#ifdef VECTOR_PARANOIA
+        x = y = z = w = VEC_T_NAN;
+#endif
+#endif
+    }
+    inline Quaternion(vec_t ix, vec_t iy, vec_t iz, vec_t iw) : x(ix), y(iy), z(iz), w(iw) { }
+    inline Quaternion(RadianEuler const& angle);	// evil auto type promotion!!!
+
+    inline void Init(vec_t ix = 0.0f, vec_t iy = 0.0f, vec_t iz = 0.0f, vec_t iw = 0.0f) { x = ix; y = iy; z = iz; w = iw; }
+
+    bool IsValid() const;
+    void Invalidate();
+
+    bool operator==(const Quaternion& src) const;
+    bool operator!=(const Quaternion& src) const;
+
+    vec_t* Base() { return (vec_t*)this; }
+    const vec_t* Base() const { return (vec_t*)this; }
+
+    // array access...
+    vec_t operator[](int i) const;
+    vec_t& operator[](int i);
+
+    vec_t x, y, z, w;
+};
+
+
+
+
+inline vec_t BitsToFloat(unsigned long i)
+{
+    return *reinterpret_cast<vec_t*>(&i);
+}
+
 struct Vector
 {
-    float aux[3];
+    Vector() {}
+    Vector(float x1, float y1, float z1) { x = x1; y = y1; z = z1; }
+    float x;
+    float y;
+    float z;
+};
+
+struct matrix3x4_t
+{
+    matrix3x4_t() {}
+    matrix3x4_t(
+        float m00, float m01, float m02, float m03,
+        float m10, float m11, float m12, float m13,
+        float m20, float m21, float m22, float m23)
+    {
+        m_flMatVal[0][0] = m00;	m_flMatVal[0][1] = m01; m_flMatVal[0][2] = m02; m_flMatVal[0][3] = m03;
+        m_flMatVal[1][0] = m10;	m_flMatVal[1][1] = m11; m_flMatVal[1][2] = m12; m_flMatVal[1][3] = m13;
+        m_flMatVal[2][0] = m20;	m_flMatVal[2][1] = m21; m_flMatVal[2][2] = m22; m_flMatVal[2][3] = m23;
+    }
+
+    //-----------------------------------------------------------------------------
+    // Creates a matrix where the X axis = forward
+    // the Y axis = left, and the Z axis = up
+    //-----------------------------------------------------------------------------
+    void Init(const Vector& xAxis, const Vector& yAxis, const Vector& zAxis, const Vector& vecOrigin)
+    {
+        m_flMatVal[0][0] = xAxis.x; m_flMatVal[0][1] = yAxis.x; m_flMatVal[0][2] = zAxis.x; m_flMatVal[0][3] = vecOrigin.x;
+        m_flMatVal[1][0] = xAxis.y; m_flMatVal[1][1] = yAxis.y; m_flMatVal[1][2] = zAxis.y; m_flMatVal[1][3] = vecOrigin.y;
+        m_flMatVal[2][0] = xAxis.z; m_flMatVal[2][1] = yAxis.z; m_flMatVal[2][2] = zAxis.z; m_flMatVal[2][3] = vecOrigin.z;
+    }
+
+    //-----------------------------------------------------------------------------
+    // Creates a matrix where the X axis = forward
+    // the Y axis = left, and the Z axis = up
+    //-----------------------------------------------------------------------------
+    matrix3x4_t(const Vector& xAxis, const Vector& yAxis, const Vector& zAxis, const Vector& vecOrigin)
+    {
+        Init(xAxis, yAxis, zAxis, vecOrigin);
+    }
+
+    inline void Invalidate(void)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                m_flMatVal[i][j] = VEC_T_NAN;
+            }
+        }
+    }
+
+    float* operator[](int i) { assert((i >= 0) && (i < 3)); return m_flMatVal[i]; }
+    const float* operator[](int i) const { assert((i >= 0) && (i < 3)); return m_flMatVal[i]; }
+    float* Base() { return &m_flMatVal[0][0]; }
+    const float* Base() const { return &m_flMatVal[0][0]; }
+
+    float m_flMatVal[3][4];
+};
+
+struct mstudiobone_t
+{
+    int					sznameindex;
+    inline char* const pszName(void) const { return ((char*)this) + sznameindex; }
+    int		 			parent;		// parent bone
+    int					bonecontroller[6];	// bone controller index, -1 == none
+
+    // default values
+    Vector				pos;
+    Quaternion			quat;
+    RadianEuler			rot;
+    // compression scale
+    Vector				posscale;
+    Vector				rotscale;
+
+    matrix3x4_t			poseToBone;
+    Quaternion			qAlignment;
+    int					flags;
+    int					proctype;
+    int					procindex;		// procedural rule
+    mutable int			physicsbone;	// index into physically simulated bone
+    inline void* pProcedure() const { if (procindex == 0) return NULL; else return  (void*)(((byte*)this) + procindex); };
+    int					surfacepropidx;	// index into string tablefor property name
+    inline char* const pszSurfaceProp(void) const { return ((char*)this) + surfacepropidx; }
+    int					contents;		// See BSPFlags.h for the contents flags
+
+    int					unused[8];		// remove as appropriate
+
+    mstudiobone_t() {}
+private:
+    // No copy constructors allowed
+    mstudiobone_t(const mstudiobone_t& vOther);
 };
 
 struct studiohdr_t
 {
+
     int         id;             // Model format ID, such as "IDST" (0x49 0x44 0x53 0x54)
     int         version;        // Format version number, such as 48 (0x30,0x00,0x00,0x00)
     int         checksum;       // This has to be the same in the phy and vtx files to load!
@@ -58,6 +302,9 @@ struct studiohdr_t
      // mstudiobone_t
     int        bone_count;    // Number of data sections (of type mstudiobone_t)
     int        bone_offset;   // Offset of first data section
+    inline mstudiobone_t* pBone(int i) const { 
+        return (mstudiobone_t*)(((byte*)this) + bone_offset) + i; 
+    }
 
     // mstudiobonecontroller_t
     int        bonecontroller_count;
@@ -215,6 +462,7 @@ struct studiohdr_t
      */
 };
 
+
 /*
 struct Model_Name {
 	const char* Name;
@@ -242,6 +490,8 @@ struct Vec2 {
 	float x, y;
 };
 struct Vec3 {
+    Vec3() {}
+    Vec3(float x1, float y1, float z1) { x = x1; y = y1; z = z1; }
 	float x, y, z;
 };
 struct Vec4 {

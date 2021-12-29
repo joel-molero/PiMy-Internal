@@ -24,3 +24,5 @@ void DrawLine(int x1, int y1, int x2, int y2, int thickness, D3DCOLOR color) {
 void DrawLine(Vec2 src, Vec2 dst, int thickness, D3DCOLOR color) {
 	DrawLine(src.x, src.y, dst.x, dst.y, thickness, color);
 }
+
+

@@ -97,12 +97,36 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
             continue;
 
 
-        uintptr_t* aux = (uintptr_t*)((uintptr_t)curEnt + 0x2950);
+        uintptr_t* aux = (uintptr_t*)((uintptr_t)curEnt + m_pStudioHdr);
         uintptr_t* aux2 = (uintptr_t*)(*aux);
         studiohdr_t* studio_hdr = (studiohdr_t*)(*aux2);
 
+        for (int i = 0; i < studio_hdr->bone_count; i++)
+        {
+            mstudiobone_t* papyrusBone = studio_hdr->pBone(i);
 
-        //int numBones = studio_hdr->bone_count;
+            if ((papyrusBone->flags & BONE_USED_BY_HITBOX) && (papyrusBone->parent != -1))
+            {
+                Vec3 childSansBone3D = hack->GetBonePos(curEnt, i);
+                //Vec3 childSansBone3D(papyrusBone->poseToBone[0][3], papyrusBone->poseToBone[1][3], papyrusBone->poseToBone[2][3]);
+                //Vec3 childSansBone3D(papyrusBone->pos.x, papyrusBone->pos.y, papyrusBone->pos.z);
+                //mstudiobone_t* fatherAlphysBone_t = studio_hdr->pBone(papyrusBone->parent);
+
+                //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->poseToBone[0][3], fatherAlphysBone_t->poseToBone[1][3], fatherAlphysBone_t->poseToBone[2][3]);
+                //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->pos.x, fatherAlphysBone_t->pos.y, fatherAlphysBone_t->pos.z);
+                Vec3 fatherAlphysBone3D = hack->GetBonePos(curEnt, papyrusBone->parent);
+
+                Vec2 fatherAlphysBone2D, childSansBone2D;
+                if (!(hack->WorldToScreen(fatherAlphysBone3D, fatherAlphysBone2D)) || !(hack->WorldToScreen(childSansBone3D, childSansBone2D)))
+                {
+                    continue;
+                }
+                DrawLine(fatherAlphysBone2D, childSansBone2D, 2, D3DCOLOR_ARGB(255, 0, 255, 0));
+                
+            }
+        }
+
+        
 
         D3DCOLOR color;
 

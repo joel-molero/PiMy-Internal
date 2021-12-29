@@ -1,13 +1,13 @@
 ﻿  hack.cpp
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(9,33): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(11,34): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(279,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(256): message : vea la declaración de 'Ent'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(10,33): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(12,34): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(529,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(506): message : vea la declaración de 'Ent'
   drawing.cpp
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(9,33): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(11,34): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(279,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(256): message : vea la declaración de 'Ent'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(10,33): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(12,34): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(529,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(506): message : vea la declaración de 'Ent'
 D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(16,28): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
 D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(16,24): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
 D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(17,28): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
@@ -17,25 +17,29 @@ D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(25,35): warning C4244: 'argumen
 D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(25,28): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
 D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(25,21): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
 D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(25,14): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(29,46): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(29,36): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(29,26): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(29,16): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
   dx.cpp
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(9,33): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(11,34): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(279,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(256): message : vea la declaración de 'Ent'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(10,33): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(12,34): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(529,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(506): message : vea la declaración de 'Ent'
   dllmain.cpp
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(9,33): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(11,34): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(279,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(256): message : vea la declaración de 'Ent'
-D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(140,42): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(140,30): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(145,39): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(146,40): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(10,33): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(12,34): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(529,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(506): message : vea la declaración de 'Ent'
+D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(166,42): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(166,30): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(171,39): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(172,40): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
   hook.cpp
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(9,33): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(11,34): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(279,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(256): message : vea la declaración de 'Ent'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(10,33): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(12,34): warning C4081: se esperaba 'newline'; se encontró ';'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(529,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(506): message : vea la declaración de 'Ent'
   Generando código...
 D:\PiMy internal\csgo\trgbt\Project1\hook.cpp(19): warning C4715: 'Hook': no todas las rutas de acceso de control devuelven un valor
   Project1.vcxproj -> D:\PiMy internal\csgo\trgbt\Debug\Project1.dll
