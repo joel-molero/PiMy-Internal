@@ -5,7 +5,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <assert.h>
-
+#include <cmath>
 
 #pragma comment(lib, "d3d9.lib");
 
