@@ -15,13 +15,28 @@ void Hack::Init() {
 			continue;
 		else
 		{
+			count++;
+		}
+	}
+	enemies_list.enemieentity = new Ent*[count];
+	enemies_list.pos = new int[count];
+	enemies_list.rage = new bool[count];
+	enemies_list.countPlayers = count;
+
+	count = 0;
+	for (int i = 1; i < 32; i++) {
+		Ent* curEnt = entList->ents[i].ent;
+		if (!CheckValidEntStart(curEnt))
+			continue;
+		else
+		{
 			enemies_list.enemieentity[count] = curEnt;
 			enemies_list.pos[count] = count;
 			enemies_list.rage[count] = false;
 			count++;
 		}
 	}
-	enemies_list.countPlayers = count;
+	//enemies_list.countPlayers = count;
 }
 
 void Hack::Update() {
@@ -296,9 +311,9 @@ void Hack::AimBot(int position) {
 	float yaw = atan2(deltaVec.y, deltaVec.x) * (180 / PI);
 	float z = 0;
 
-	pitch -= punch->x*1.9;
-	yaw -= punch->y*1.9;
-	z -= punch->z*1.9;
+	pitch -= punch->x*2.0;
+	yaw -= punch->y*2.0;
+	z -= punch->z*2.0;
 
 
 	if (pitch >= -89 && pitch <= 89 && yaw >= -180 && yaw <= 180)

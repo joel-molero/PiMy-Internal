@@ -553,17 +553,18 @@ struct EnemiesInfo
 {
     EnemiesInfo() 
     {
-        enemieentity[0] = nullptr;
+        /*enemieentity[0] = nullptr;
         enemieentity[1] = nullptr;
         enemieentity[2] = nullptr;
         enemieentity[3] = nullptr;
-        enemieentity[4] = nullptr;
+        enemieentity[4] = nullptr;*/
+        enemieentity = nullptr;
     }
     //EnemiesInfo(Ent* enemieentity, int pos, bool z1) { 
       //  enemieentity[] = x1; pos = y1; rage = z1; }
-    Ent* enemieentity[5];
-    int pos[5];
-    bool rage[5];
+    Ent** enemieentity;
+    int* pos;
+    bool* rage;
     int countPlayers;
     Ent* closestEntity;
 };
