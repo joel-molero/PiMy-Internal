@@ -227,8 +227,10 @@ DWORD WINAPI MainThread(HMODULE hModule)
 
         if (GetAsyncKeyState(VK_MENU /*alt key*/))
         {
-            hack->AimBot(hack->FindClosestEnemyToCrosshair());
-            Sleep(100);
+            int position = hack->FindClosestEnemyToCrosshair();
+            if (position!=-1)
+                hack->AimBot(position);
+
         }
 
         if (GetAsyncKeyState(VK_SPACE))

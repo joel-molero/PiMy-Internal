@@ -124,9 +124,8 @@ Vec3 Hack::GetEnemyVel(Ent* ent) {
 	return enemyVel;
 }
 
-Vec3 Hack::GetCurrentAngles(uintptr_t* client) {
-	Vec3* currentAngles = (Vec3*)(*client+dwClientState_ViewAngles);
-	return *currentAngles;
+Vec3* Hack::GetCurrentAngles() {
+	return (Vec3*)(*clientState+dwClientState_ViewAngles);
 }
 
 int Hack::FindClosestEnemyToCrosshair() {
@@ -159,6 +158,18 @@ int Hack::FindClosestEnemyToCrosshair() {
 	}
 	return position;
 	
+}
+
+Vec3* Hack::GetOrigin() {
+	return (Vec3*)(*getLocalPlayer + m_vecOrigin);
+}
+
+Vec3* Hack::GetViewOffset() {
+	return (Vec3*)(*getLocalPlayer + m_vecViewOffset);
+}
+
+Vec3* Hack::GetPunchAngle() {
+	return (Vec3*)(*getLocalPlayer + m_aimPunchAngle);
 }
 
 
@@ -223,7 +234,7 @@ int Hack::FindClosestEnemy(Vec3* final) {
 
 		float hypo = sqrt(pow(aids.x, 2) + pow(aids.y, 2));
 
-		currentAngles = GetCurrentAngles(clientState);
+		//currentAngles = GetCurrentAngles(clientState);
 		//Vec3* currentAngles = (Vec3*)(clientState + dwClientState_ViewAngles);
 
 		angles.x = asinf(aids.z / hypo) * (180.0f / PI);
@@ -266,23 +277,34 @@ int Hack::FindClosestEnemy(Vec3* final) {
 	return position;
 }
 
-int Hack::AimBot(int position) {
-	Vec3 enemyPos;
-	Vec2 enemyPos2D;
-	enemyPos = GetBonePos(enemies_list.enemieentity[position], 8);
-	WorldToScreen(enemyPos, enemyPos2D);
+void Hack::AimBot(int position) {
 	
-	double fScreenWidth = GetSystemMetrics(SM_CXSCREEN) - 1;
-	double fScreenHeight= GetSystemMetrics(SM_CYSCREEN) - 1;
-	double fx = enemyPos2D.x * (65535.0f / fScreenWidth);
-	double fy = enemyPos2D.y * (65535.0f / fScreenHeight);
-	INPUT Input = { 0 };
-	Input.type = INPUT_MOUSE;
-	Input.mi.dwFlags = MOUSEEVENTF_MOVE;
-	Input.mi.dx = fx;
-	Input.mi.dy = fy;
-	SendInput(1, &Input, sizeof(INPUT));
-	return true;
+
+	Vec3 origin = *GetOrigin();
+	Vec3 viewOffset = *GetViewOffset();
+	Vec3* myPos = &(origin + viewOffset);
+	Vec3* punch = GetPunchAngle();
+
+	static Vec3* viewAngles = GetCurrentAngles();
+	Vec3 enemyPos = GetBonePos(enemies_list.enemieentity[position], 8);
+	
+	Vec3 deltaVec(enemyPos.x - myPos->x, enemyPos.y - myPos->y, enemyPos.z - myPos->z);
+
+	float distance = sqrt(deltaVec.x * deltaVec.x + deltaVec.y * deltaVec.y + deltaVec.z * deltaVec.z);
+	
+	float pitch = -asin(deltaVec.z / distance) * (180 / PI);
+	float yaw = atan2(deltaVec.y, deltaVec.x) * (180 / PI);
+	float z = 0;
+
+	pitch -= punch->x*1.9;
+	yaw -= punch->y*1.9;
+	z -= punch->z*1.9;
 
 
+	if (pitch >= -89 && pitch <= 89 && yaw >= -180 && yaw <= 180)
+	{
+		viewAngles->x = pitch;
+		viewAngles->y = yaw;
+		viewAngles->z = z;
+	}
 }

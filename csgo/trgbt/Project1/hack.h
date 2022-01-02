@@ -495,7 +495,14 @@ struct Vec2 {
 struct Vec3 {
     Vec3() {}
     Vec3(float x1, float y1, float z1) { x = x1; y = y1; z = z1; }
-	float x, y, z;
+    Vec3& operator+(Vec3 arg)
+    {
+        x += arg.x;
+        y += arg.y;
+        z += arg.z;
+        return *this;
+    }
+    float x, y, z;
 };
 struct Vec4 {
 	float x, y, z, w;
@@ -571,6 +578,9 @@ public:
     uintptr_t m_vecVelocity = 0x114;
     uintptr_t dwClientState = 0x589FC4;
     uintptr_t dwClientState_ViewAngles = 0x4D90;
+    uintptr_t m_vecOrigin = 0x138;
+    uintptr_t m_vecViewOffset = 0x108;
+    uintptr_t m_aimPunchAngle = 0x303C;
 
 	uintptr_t engine;
 	uintptr_t client;
@@ -607,9 +617,12 @@ public:
 	bool WorldToScreen(Vec3 pos, Vec2& screen);
 	Vec3 GetBonePos(Ent* ent, int bone);
     Vec3 GetEnemyVel(Ent* ent);
-    Vec3 GetCurrentAngles(uintptr_t* client);
+    Vec3* GetCurrentAngles();
+    Vec3* GetOrigin();
+    Vec3* GetViewOffset();
+    Vec3* GetPunchAngle();
     int FindClosestEnemy(Vec3* final);
     int FindClosestEnemyToCrosshair();
-    int AimBot(int position);
+    void AimBot(int position);
 
 };
