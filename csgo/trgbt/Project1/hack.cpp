@@ -6,183 +6,22 @@ void Hack::Init() {
 	entList = (EntList*)(client + dwEntityList);
 	localEnt = entList->ents[0].ent; //(*entList).ents[0]
 	getLocalPlayer = (uintptr_t*)(client + dwLocalPlayer);
-	/*
-
-	Bones_Orders[0].Cabeza = 8;
-	Bones_Orders[0].Cuello = 7;
-	Bones_Orders[0].Pelvis = 0;
-	Bones_Orders[0].HombroD = 38;
-	Bones_Orders[0].CodoD = 39;
-	Bones_Orders[0].ManoD = 40;
-	Bones_Orders[0].HombroI = 10;
-	Bones_Orders[0].CodoI = 11;
-	Bones_Orders[0].ManoI = 12;
-	Bones_Orders[0].RodillaD = 73;
-	Bones_Orders[0].PieD = 74;
-	Bones_Orders[0].RodillaI = 66;
-	Bones_Orders[0].PieI = 67;
-
-	Bones_Orders[1].Cabeza = 8;
-	Bones_Orders[1].Cuello = 7;
-	Bones_Orders[1].Pelvis = 0;
-	Bones_Orders[1].HombroD = 39;
-	Bones_Orders[1].CodoD = 40;
-	Bones_Orders[1].ManoD = 41;
-	Bones_Orders[1].HombroI = 11;
-	Bones_Orders[1].CodoI = 12;
-	Bones_Orders[1].ManoI = 13;
-	Bones_Orders[1].RodillaD = 80;
-	Bones_Orders[1].PieD = 81;
-	Bones_Orders[1].RodillaI = 71;
-	Bones_Orders[1].PieI = 72;
-
-	Bones_Orders[2].Cabeza = 8;
-	Bones_Orders[2].Cuello = 7;
-	Bones_Orders[2].Pelvis = 0;
-	Bones_Orders[2].HombroD = 39;
-	Bones_Orders[2].CodoD = 40;
-	Bones_Orders[2].ManoD = 41;
-	Bones_Orders[2].HombroI = 11;
-	Bones_Orders[2].CodoI = 12;
-	Bones_Orders[2].ManoI = 13;
-	Bones_Orders[2].RodillaD = 80;
-	Bones_Orders[2].PieD = 81;
-	Bones_Orders[2].RodillaI = 72;
-	Bones_Orders[2].PieI = 73;
-
-	Bones_Orders[3].Cabeza = 8;
-	Bones_Orders[3].Cuello = 7;
-	Bones_Orders[3].Pelvis = 0;
-	Bones_Orders[3].HombroD = 39;
-	Bones_Orders[3].CodoD = 40;
-	Bones_Orders[3].ManoD = 41;
-	Bones_Orders[3].HombroI = 11;
-	Bones_Orders[3].CodoI = 12;
-	Bones_Orders[3].ManoI = 13;
-	Bones_Orders[3].RodillaD = 81;
-	Bones_Orders[3].PieD = 82;
-	Bones_Orders[3].RodillaI = 72;
-	Bones_Orders[3].PieI = 73;
-
-	Bones_Orders[4].Cabeza = 8;
-	Bones_Orders[4].Cuello = 7;
-	Bones_Orders[4].Pelvis = 0;
-	Bones_Orders[4].HombroD = 39;
-	Bones_Orders[4].CodoD = 40;
-	Bones_Orders[4].ManoD = 41;
-	Bones_Orders[4].HombroI = 11;
-	Bones_Orders[4].CodoI = 12;
-	Bones_Orders[4].ManoI = 13;
-	Bones_Orders[4].RodillaD = 82;
-	Bones_Orders[4].PieD = 83;
-	Bones_Orders[4].RodillaI = 73;
-	Bones_Orders[4].PieI = 74;
-
-	Bones_Orders[5].Cabeza = 8;
-	Bones_Orders[5].Cuello = 7;
-	Bones_Orders[5].Pelvis = 0;
-	Bones_Orders[5].HombroD = 38;
-	Bones_Orders[5].CodoD = 39;
-	Bones_Orders[5].ManoD = 40;
-	Bones_Orders[5].HombroI = 10;
-	Bones_Orders[5].CodoI = 11;
-	Bones_Orders[5].ManoI = 12;
-	Bones_Orders[5].RodillaD = 76;
-	Bones_Orders[5].PieD = 77;
-	Bones_Orders[5].RodillaI = 69;
-	Bones_Orders[5].PieI = 70;
-
-	Bones_Orders[6].Cabeza = 8;
-	Bones_Orders[6].Cuello = 7;
-	Bones_Orders[6].Pelvis = 0;
-	Bones_Orders[6].HombroD = 38;
-	Bones_Orders[6].CodoD = 39;
-	Bones_Orders[6].ManoD = 40;
-	Bones_Orders[6].HombroI = 10;
-	Bones_Orders[6].CodoI = 11;
-	Bones_Orders[6].ManoI = 12;
-	Bones_Orders[6].RodillaD = 74;
-	Bones_Orders[6].PieD = 75;
-	Bones_Orders[6].RodillaI = 67;
-	Bones_Orders[6].PieI = 68;
-
-	Bones_Orders[7].Cabeza = 8;
-	Bones_Orders[7].Cuello = 7;
-	Bones_Orders[7].Pelvis = 0;
-	Bones_Orders[7].HombroD = 39;
-	Bones_Orders[7].CodoD = 40;
-	Bones_Orders[7].ManoD = 41;
-	Bones_Orders[7].HombroI = 11;
-	Bones_Orders[7].CodoI = 12;
-	Bones_Orders[7].ManoI = 13;
-	Bones_Orders[7].RodillaD = 75;
-	Bones_Orders[7].PieD = 76;
-	Bones_Orders[7].RodillaI = 68;
-	Bones_Orders[7].PieI = 69;
-
-	Bones_Orders[8].Cabeza = 8;
-	Bones_Orders[8].Cuello = 7;
-	Bones_Orders[8].Pelvis = 0;
-	Bones_Orders[8].HombroD = 39;
-	Bones_Orders[8].CodoD = 40;
-	Bones_Orders[8].ManoD = 41;
-	Bones_Orders[8].HombroI = 11;
-	Bones_Orders[8].CodoI = 12;
-	Bones_Orders[8].ManoI = 13;
-	Bones_Orders[8].RodillaD = 74;
-	Bones_Orders[8].PieD = 75;
-	Bones_Orders[8].RodillaI = 67;
-	Bones_Orders[8].PieI = 68;
-
-	Model_names[0].Name = "ctm_fbi";
-	Model_names[0].Bone_Distribution = &Bones_Orders[1];
-
-	Model_names[1].Name = "ctm_gig";
-	Model_names[1].Bone_Distribution = &Bones_Orders[5];
-
-	Model_names[1].Name = "ctm_gsg";
-	Model_names[1].Bone_Distribution = &Bones_Orders[5];
-
-	Model_names[1].Name = "ctm_idf";
-	Model_names[1].Bone_Distribution = &Bones_Orders[5];
-
-	Model_names[1].Name = "ctm_sas";
-	Model_names[1].Bone_Distribution = &Bones_Orders[4];
-
-	Model_names[1].Name = "ctm_st6";
-	Model_names[1].Bone_Distribution = &Bones_Orders[5];
-
-	Model_names[1].Name = "ctm_swa";
-	Model_names[1].Bone_Distribution = &Bones_Orders[2];
-
-	Model_names[1].Name = "tm_anar";
-	Model_names[1].Bone_Distribution = &Bones_Orders[0];
-
-	Model_names[1].Name = "tm_balk";
-	Model_names[1].Bone_Distribution = &Bones_Orders[0];
-
-	Model_names[1].Name = "tm_leet";
-	Model_names[1].Bone_Distribution = &Bones_Orders[8];
-
-	Model_names[1].Name = "tm_phoe";
-	Model_names[1].Bone_Distribution = &Bones_Orders[0];
-
-	Model_names[1].Name = "tm_pira";
-	Model_names[1].Bone_Distribution = &Bones_Orders[0];
-
-	Model_names[1].Name = "tm_prof";
-	Model_names[1].Bone_Distribution = &Bones_Orders[0];
-
-	Model_names[1].Name = "tm_sepa";
-	Model_names[1].Bone_Distribution = &Bones_Orders[0];
-
-	/*int aux [13]  = { Cabeza, Cuello, Pelvis, HombroD, CodoD, ManoD, HombroI, CodoI, ManoI, RodillaD, PieD, RodillaI, PieI };
-
-	for (int i = 0; i < 13; i++)
-	{
-		Bones[i] = aux[i];
+	clientState = (uintptr_t*)(engine + dwClientState);
+	int count = 0;
+	//enemies_list->enemieentity = {};
+	for (int i = 1; i < 32; i++) {
+		Ent* curEnt = entList->ents[i].ent;
+		if (!CheckValidEntStart(curEnt))
+			continue;
+		else
+		{
+			enemies_list.enemieentity[count] = curEnt;
+			enemies_list.pos[count] = count;
+			enemies_list.rage[count] = false;
+			count++;
+		}
 	}
-	*/
+	enemies_list.countPlayers = count;
 }
 
 void Hack::Update() {
@@ -213,9 +52,6 @@ void Hack::Bunny() {
 		UINT uSent = SendInput(ARRAYSIZE(inputs), inputs, sizeof(INPUT));
 		Sleep(50);
 	}
-
-
-
 }
 
 bool Hack::CheckValidEnt(Ent* ent) {
@@ -226,6 +62,18 @@ bool Hack::CheckValidEnt(Ent* ent) {
 	if (ent->iHealth <= 0)
 		return false;
 	if (ent->isDormant)
+		return false;
+	return true;
+}
+
+bool Hack::CheckValidEntStart(Ent* ent) {
+	if (ent == nullptr)
+		return false;
+	if (ent == localEnt)
+		return false;
+	if (ent->iHealth <= 0)
+		return false;
+	if (ent->iTeamNum == localEnt->iTeamNum)
 		return false;
 	return true;
 }
@@ -258,4 +106,183 @@ Vec3 Hack::GetBonePos(Ent* ent, int bone) {
 	bonePos.y = *(float*)(bonePtr + 0x30 * bone + 0x1C);
 	bonePos.z = *(float*)(bonePtr + 0x30 * bone + 0x2C);
 	return bonePos;
+}
+
+Vec3 Hack::GetMyPos() {
+	uintptr_t MyBaseBoneMatrix = (uintptr_t)(*getLocalPlayer + m_dwBoneMatrix);
+	Vec3 headPos;
+	headPos.x = *(float*)(MyBaseBoneMatrix + 0x30 * 8 + 0x0C);
+	headPos.y = *(float*)(MyBaseBoneMatrix + 0x30 * 8 + 0x1C);
+	headPos.z = *(float*)(MyBaseBoneMatrix + 0x30 * 8 + 0x2C);
+
+	return headPos;
+}
+
+Vec3 Hack::GetEnemyVel(Ent* ent) {
+	Vec3 enemyVel = ent->vecVelocity;
+
+	return enemyVel;
+}
+
+Vec3 Hack::GetCurrentAngles(uintptr_t* client) {
+	Vec3* currentAngles = (Vec3*)(*client+dwClientState_ViewAngles);
+	return *currentAngles;
+}
+
+int Hack::FindClosestEnemyToCrosshair() {
+
+	Vec2 enemyPos;
+	Vec3 enemyHead;
+	uintptr_t EnemieBoneMatrix;
+	double minDistance = 999999;
+	float distance;
+	int position = -1;
+
+
+	for (int i = 0; i < enemies_list.countPlayers; i++)
+	{
+		if (!CheckValidEnt(enemies_list.enemieentity[i]))
+			continue;
+		//EnemieBoneMatrix = (uintptr_t)(enemies_list.enemieentity[i] + m_dwBoneMatrix);
+		//vel = GetEnemyVel(enemies_list.enemieentity[i]); ??? por que???
+		WorldToScreen( GetBonePos(enemies_list.enemieentity[i], 8), enemyPos );
+
+		distance = (((windowWidth / 2) - enemyPos.x) * ((windowWidth / 2) - enemyPos.x)) + (((windowHeight / 2) - enemyPos.y) * ((windowHeight / 2) - enemyPos.y));
+
+		if (distance < minDistance)
+		{
+			enemies_list.closestEntity = enemies_list.enemieentity[i];
+			minDistance = distance;
+			position = i;
+		}
+
+	}
+	return position;
+	
+}
+
+
+int Hack::FindClosestEnemy(Vec3* final) {
+	Vec3 enemiesHead;
+	Vec3 myHead;
+	Vec3 substract;
+	Vec3 aids;
+	double distance;
+	double twodDistance;
+	int position = -1;
+	uintptr_t EnemieBoneMatrix;
+	Vec3 vel;
+
+
+	double minDistance = 999999;
+
+	Vec3 headPos = GetMyPos();
+
+	for (int i = 0; i < enemies_list.countPlayers; i++)
+	{
+		if (!CheckValidEnt(enemies_list.enemieentity[i]))
+			continue;
+		vel = GetEnemyVel(enemies_list.enemieentity[i]);
+		
+		//vel = (Vec3)(enemies_list.enemieentity[i] + m_vecVelocity);
+
+		enemiesHead = GetBonePos(enemies_list.enemieentity[i], 8);
+
+		substract.x = headPos.x - enemiesHead.x;
+		substract.y = headPos.y - enemiesHead.y;
+		substract.z = headPos.z - enemiesHead.z;
+
+		distance = sqrt(pow(substract.x, 2) + pow(substract.y, 2) + pow(substract.z, 2));
+		twodDistance = sqrt(pow(substract.x, 2) + pow(substract.y, 2));
+
+		if (distance > 320)
+		{
+			enemiesHead.x += ((vel.x) / (distance / 10));
+			enemiesHead.y += ((vel.y) / (distance / 10));
+			enemiesHead.z += ((vel.z) / (distance / 10));
+		}
+		else
+		{
+			enemiesHead.x += ((vel.x) / distance);
+			enemiesHead.y += ((vel.y) / distance);
+			enemiesHead.z += ((vel.z) / distance);
+
+		}
+		substract.x = headPos.x - enemiesHead.x;
+		substract.y = headPos.y - enemiesHead.y;
+		substract.z = headPos.z - enemiesHead.z;
+	
+		aids.x = substract.x;
+		aids.y = substract.y;
+		aids.z = substract.z;
+		 
+		Vec3 angles;
+		Vec3 punch;
+		Vec3 currentAngles = { currentAngles.x = 0, currentAngles.y = 0, currentAngles.z = 0 };
+		//Vec3 *currentAngles;
+
+		float hypo = sqrt(pow(aids.x, 2) + pow(aids.y, 2));
+
+		currentAngles = GetCurrentAngles(clientState);
+		//Vec3* currentAngles = (Vec3*)(clientState + dwClientState_ViewAngles);
+
+		angles.x = asinf(aids.z / hypo) * (180.0f / PI);
+		angles.y = atanf(aids.y / aids.x) * (180.0f / PI) + !((*(DWORD*)&aids.x) >> 31 & 1) * 180.0f;
+		angles.z = 0.0f;
+
+		if (angles.x == NAN || isnan(angles.x))
+			return -1;
+
+		if (angles.y >= 180 && angles.y < 270) {
+			angles.y -= 360;
+		}
+
+		if (((currentAngles).y > 90) && (angles.y < -2))
+		{
+			Sleep(15);
+			angles.y += 20;
+		}
+
+		if (((currentAngles).y < -90) && (angles.y > 2))
+		{
+			Sleep(15);
+			angles.y -= 20;
+		}
+
+		float cdist = abs(angles.y - currentAngles.y);
+
+		if (cdist < minDistance)
+		{
+			enemies_list.closestEntity = enemies_list.enemieentity[i];
+			minDistance = cdist;
+			position = i;
+			final->x = substract.x;
+			final->y = substract.y;
+			final->z = substract.z;
+
+		}
+
+	}
+	return position;
+}
+
+int Hack::AimBot(int position) {
+	Vec3 enemyPos;
+	Vec2 enemyPos2D;
+	enemyPos = GetBonePos(enemies_list.enemieentity[position], 8);
+	WorldToScreen(enemyPos, enemyPos2D);
+	
+	double fScreenWidth = GetSystemMetrics(SM_CXSCREEN) - 1;
+	double fScreenHeight= GetSystemMetrics(SM_CYSCREEN) - 1;
+	double fx = enemyPos2D.x * (65535.0f / fScreenWidth);
+	double fy = enemyPos2D.y * (65535.0f / fScreenHeight);
+	INPUT Input = { 0 };
+	Input.type = INPUT_MOUSE;
+	Input.mi.dwFlags = MOUSEEVENTF_MOVE;
+	Input.mi.dx = fx;
+	Input.mi.dy = fy;
+	SendInput(1, &Input, sizeof(INPUT));
+	return true;
+
+
 }

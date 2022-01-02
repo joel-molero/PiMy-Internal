@@ -10,8 +10,10 @@
 #define m_fFlags 0x104
 #define dwForceJump 0x527998C
 #define m_pStudioHdr 0x2950
+#define m_dwBoneMatrix 0x26A8
 
 uintptr_t moduleBase;
+Vec3 test;
 
 template<typename T> T RPM(uintptr_t address) {
     try { return *(T*)address; }
@@ -178,12 +180,12 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
     b.y += hack->crosshairSizeT;
     t.y -= hack->crosshairSizeB;
 
-    DrawLine(r, t, 2, D3DCOLOR_ARGB(115, 132, 13, 255));
-    DrawLine(l, t, 2, D3DCOLOR_ARGB(115, 255, 0, 0));
-    DrawLine(r, b, 2, D3DCOLOR_ARGB(115, 0, 255, 0));
-    DrawLine(l, b, 2, D3DCOLOR_ARGB(115, 0, 0, 255));
-    DrawLine(t, b, 2, D3DCOLOR_ARGB(165, 255, 255, 255));
-    DrawLine(l, r, 2, D3DCOLOR_ARGB(165, 255, 255, 255));
+    DrawLine(r, t, 1, D3DCOLOR_ARGB(115, 132, 13, 255));
+    DrawLine(l, t, 1, D3DCOLOR_ARGB(115, 255, 0, 0));
+    DrawLine(r, b, 1, D3DCOLOR_ARGB(115, 0, 255, 0));
+    DrawLine(l, b, 1, D3DCOLOR_ARGB(115, 0, 0, 255));
+    DrawLine(t, b, 1, D3DCOLOR_ARGB(165, 255, 255, 255));
+    DrawLine(l, r, 1, D3DCOLOR_ARGB(165, 255, 255, 255));
     //DrawLine(t, l, 2, D3DCOLOR_ARGB(135, 32, 200, 255));
     //DrawLine(t, b, 66, D3DCOLOR_ARGB(0, 32, 20, 255));
     
@@ -208,7 +210,7 @@ DWORD WINAPI MainThread(HMODULE hModule)
     FILE* f;
     freopen_s(&f, "CONOUT$", "w", stdout);
 
-    std::cout << "Welcome\n";
+    std::cout << "Welcome\n";h
 
     moduleBase = (DWORD)GetModuleHandle("client.dll");
     */
@@ -217,6 +219,7 @@ DWORD WINAPI MainThread(HMODULE hModule)
     while (true)
     {
         hack->Update();
+        int closestEnemy = hack->FindClosestEnemyToCrosshair();
         if (GetAsyncKeyState(VK_END) & 1)
         {
             break;
@@ -224,7 +227,8 @@ DWORD WINAPI MainThread(HMODULE hModule)
 
         if (GetAsyncKeyState(VK_MENU /*alt key*/))
         {
-            //Trigger();
+            hack->AimBot(hack->FindClosestEnemyToCrosshair());
+            Sleep(100);
         }
 
         if (GetAsyncKeyState(VK_SPACE))
