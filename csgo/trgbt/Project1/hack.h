@@ -268,6 +268,33 @@ private:
     mstudiobone_t(const mstudiobone_t& vOther);
 };
 
+struct mstudiobbox_t {
+    int bone;                 // hitbox bone
+    int group;                // intersection group
+    Vector bbmin;             // bounding box, or the ends of the capsule if flCapsuleRadius > 0 
+    Vector bbmax;
+    int szhitboxnameindex;    // offset to the name of the hitbox.
+    int unused[3];
+    float radius;    // capsule radius, -1 if box
+    int pad[4];
+
+    const char* pszHitboxName() const {
+        if (szhitboxnameindex == 0)
+            return "";
+
+        return ((const char*)this) + szhitboxnameindex;
+    }
+};
+
+struct mstudiohitboxset_t
+{
+    int					sznameindex;
+    inline char* const	pszName(void) const { return ((char*)this) + sznameindex; }
+    int					numhitboxes;
+    int					hitboxindex;
+    inline mstudiobbox_t* pHitbox(int i) const { return (mstudiobbox_t*)(((byte*)this) + hitboxindex) + i; };
+};
+
 struct studiohdr_t
 {
 
@@ -313,6 +340,10 @@ struct studiohdr_t
     // mstudiohitboxset_t
     int        hitbox_count;
     int        hitbox_offset;
+    mstudiohitboxset_t* pHitboxSet(int i) const
+    {
+        return (mstudiohitboxset_t*)(((byte*)this) + hitbox_offset) + i;
+    };
 
     // mstudioanimdesc_t
     int        localanim_count;
@@ -463,12 +494,15 @@ struct studiohdr_t
 };
 
 
+
 /*
 struct Model_Name {
 	const char* Name;
 	Bone_Order* Bone_Distribution;
 };
 */
+
+
 struct Bone_Order{
 	char Cabeza;
 	char Cuello;
@@ -491,10 +525,14 @@ struct Vec2 {
 };
 struct Vec3 {
     Vec3() {}
+    Vec3(Vector v) { x = v.x; y = v.y; z = v.z; }
     Vec3(float x1, float y1, float z1) { x = x1; y = y1; z = z1; }
 	float x, y, z;
 };
 struct Vec4 {
+    Vec4() {}
+    Vec4(float x1, float y1, float z1, float w1) { x = x1; y = y1; z = z1; w = w1; }
+    Vec4(Vec3 p) { x = p.x; y = p.y; z = p.z; w = 1; }
 	float x, y, z, w;
 };
 
@@ -569,6 +607,7 @@ public:
 	void Update();
 	bool CheckValidEnt(Ent* ent);
 	bool WorldToScreen(Vec3 pos, Vec2& screen);
+    bool WorldToScreen(Vec3& pos);
 	Vec3 GetBonePos(Ent* ent, int bone);
 
 };

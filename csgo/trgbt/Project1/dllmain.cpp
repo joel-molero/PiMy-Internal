@@ -13,6 +13,9 @@
 
 uintptr_t moduleBase;
 
+Vec3 halfSphere0[LAYERS][SEGMENTS + 1];
+Vec3 halfSphere1[LAYERS][SEGMENTS + 1];
+
 template<typename T> T RPM(uintptr_t address) {
     try { return *(T*)address; }
     catch (...) { return T(); }
@@ -87,6 +90,7 @@ extern LPDIRECT3DDEVICE9 pDevice = nullptr;
 Hack* hack;
 
 void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
+
     if (!pDevice)
         pDevice = o_pDevice;
 
@@ -100,6 +104,33 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
         uintptr_t* aux = (uintptr_t*)((uintptr_t)curEnt + m_pStudioHdr);
         uintptr_t* aux2 = (uintptr_t*)(*aux);
         studiohdr_t* studio_hdr = (studiohdr_t*)(*aux2);
+
+        for (int i = 0; i < studio_hdr->hitbox_count; i++)
+        {
+            mstudiohitboxset_t* mstudiohitbox_set = studio_hdr->pHitboxSet(i);
+
+            for (int j = 0; j < mstudiohitbox_set->numhitboxes; j++)
+            {
+                mstudiobbox_t* mstudio_bbox = mstudiohitbox_set->pHitbox(j);
+
+                uintptr_t* aux = (uintptr_t*)(((uintptr_t)curEnt->boneMatrix) + 0x30 * ((uintptr_t)mstudio_bbox->bone));
+                matrix3x4_t* bonematrix1 = (matrix3x4_t*)(aux);
+                Vector vmin, vmax;
+                VectorTransform_sdk(mstudio_bbox->bbmin, *bonematrix1, vmin);
+                VectorTransform_sdk(mstudio_bbox->bbmax, *bonematrix1, vmax);
+
+                if (mstudio_bbox->radius == -1)
+                {
+                    DrawCube(vmax, vmin, 2, D3DCOLOR_ARGB(255, 255, 0, 0));
+                }
+                else
+                {
+                    Vec3 vmin_3(vmin);
+                    Vec3 vmax_3(vmax);
+                    DrawCapsule(vmin_3, vmax_3, mstudio_bbox->radius, 2, D3DCOLOR_ARGB(255, 255, 0, 0),halfSphere0,halfSphere1);
+                }
+            }
+        }
 
         for (int i = 0; i < studio_hdr->bone_count; i++)
         {
