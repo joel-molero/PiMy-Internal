@@ -209,6 +209,18 @@ void DrawCapsule(Vec3 start, Vec3 end, float radius, float thickness, D3DCOLOR c
 	GetHalfSphere(start, normal_i, radius, halfSphere0);
 	GetHalfSphere(end, normal, radius, halfSphere1);
 
+	for (int i = 0; i < SEGMENTS + 1; i++)
+	{
+		for (int j = 0; j < SEGMENTS + 1; j++) {
+			Vec3 aux0 = halfSphere0[i][j];
+			Vec3 aux1 = halfSphere1[i][j];
+			hack->WorldToScreen(halfSphere0[i][j]);
+			hack->WorldToScreen(halfSphere1[i][j]);
+			aux0 = halfSphere0[i][j];
+			aux1 = halfSphere1[i][j];
+		}
+	}
+
 	for (int i = 0; i < LAYERS; i++)
 	{
 		hack->WorldToScreen(halfSphere0[i][0]);
