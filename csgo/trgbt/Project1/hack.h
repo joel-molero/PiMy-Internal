@@ -524,7 +524,7 @@ struct Vec2 {
 	float x, y;
 };
 struct Vec3 {
-    Vec3() {}
+    Vec3() { x = 0; y = 0; z = 0; }
     Vec3(Vector v) { x = v.x; y = v.y; z = v.z; }
     Vec3(float x1, float y1, float z1) { x = x1; y = y1; z = z1; }
 	float x, y, z;
@@ -601,6 +601,9 @@ public:
 	float viewMatrix[16];
 
 	int Bones[13];
+
+    Vec3** halfSphere0;
+    Vec3** halfSphere1;
 
 	void Bunny();
 	void Init();

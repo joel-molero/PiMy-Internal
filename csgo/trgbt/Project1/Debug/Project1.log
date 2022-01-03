@@ -8,29 +8,32 @@ C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(12,34): warning C4081: se esperaba 'newline'; se encontró ';'
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(567,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\hack.h(544): message : vea la declaración de 'Ent'
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(19,28): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(19,24): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(20,28): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(20,24): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(21,24): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(28,35): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(28,28): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(28,21): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(28,14): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(22,28): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(22,24): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(23,28): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(23,24): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(24,24): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(31,35): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(31,28): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(31,21): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(31,14): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(96,16): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(97,16): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(98,16): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(151,28): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(152,28): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(222,55): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(223,55): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(231,53): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(232,53): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(261,40): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(34,35): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(34,28): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(34,21): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(34,14): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(120,17): warning C4101: 't': variable local sin referencia
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(192,18): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(193,18): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(194,18): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(202,16): warning C4244: 'return': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(248,26): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(249,26): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(321,1): warning C4552: "+": el resultado de la expresión no se usa
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(329,55): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(330,55): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(338,53): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(339,53): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\drawing.cpp(352,40): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
   dx.cpp
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(10,33): warning C4081: se esperaba 'newline'; se encontró ';'
 C:\Users\danie\OneDrive\Desktop\dani\..hacking\PiMy-Internal\csgo\trgbt\Project1\includes.h(12,34): warning C4081: se esperaba 'newline'; se encontró ';'
