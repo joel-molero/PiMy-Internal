@@ -16,6 +16,7 @@ bool Hook(char* src, char* dst, int len) {
 	*src = (char)0xE9;
 	*(uintptr_t*)(src + 1) = (uintptr_t)relAddy;
 	VirtualProtect(src, len, oProc, &oProc);
+	return true;
 }
 
 char* TrampHook(char* src, char* dst, unsigned int len) {

@@ -11,6 +11,8 @@
 
 #pragma comment(lib, "d3dx9.lib");
 
+#define SEGMENTS 7
+#define LAYERS 4
 
 #include "dx.h"
 #include "hook.h"

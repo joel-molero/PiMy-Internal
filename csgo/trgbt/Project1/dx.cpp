@@ -36,7 +36,7 @@ bool GetD3D9Device(void** pTable, size_t size) {
 
 	if (!pD3D)
 		return false;
-
+	
 	IDirect3DDevice9* pDummyDevice = nullptr;
 
 	D3DPRESENT_PARAMETERS d3dpp = {};
