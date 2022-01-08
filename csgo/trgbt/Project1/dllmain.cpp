@@ -10,8 +10,10 @@
 #define m_fFlags 0x104
 #define dwForceJump 0x527998C
 #define m_pStudioHdr 0x2950
+#define m_dwBoneMatrix 0x26A8
 
 uintptr_t moduleBase;
+Vec3 test;
 
 
 
@@ -19,7 +21,7 @@ template<typename T> T RPM(uintptr_t address) {
     try { return *(T*)address; }
     catch (...) { return T(); }
 }
-/*
+
 uintptr_t getLocalPlayer() { //This will get the address to localplayer. 
     return RPM< uintptr_t>(moduleBase + dwLocalPlayer);
 }
@@ -54,7 +56,7 @@ void Trigger()
             Sleep(100); //Optional
     }
 }
-
+/*
 void BunnyHop()
 {
     int chhc = flag(getLocalPlayer());
@@ -103,7 +105,7 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
         uintptr_t* aux = (uintptr_t*)((uintptr_t)curEnt + m_pStudioHdr);
         uintptr_t* aux2 = (uintptr_t*)(*aux);
         studiohdr_t* studio_hdr = (studiohdr_t*)(*aux2);
-
+        /*
         if (!(curEnt->iTeamNum == hack->localEnt->iTeamNum))
         {
             for (int i = 0; i < studio_hdr->hitbox_count; i++)
@@ -133,6 +135,7 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
                 }
             }
         }
+        */
 
         for (int i = 0; i < studio_hdr->bone_count; i++)
         {
@@ -169,7 +172,7 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
             color = D3DCOLOR_ARGB(255, 255, 0, 0);
 
         Vec2 entPos2D;
-        
+        /*
         bool lodibuja = true;
         for (int i = 0; i < 13; i++)
         {
@@ -194,10 +197,12 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
             DrawLine(Coords_bones[PieI_i], Coords_bones[RodillaI_i], 10, color);
             DrawLine(Coords_bones[PieD_i], Coords_bones[RodillaD_i], 10, color);
         }
+        */
 
         if (hack->WorldToScreen(curEnt->vecOrigin, entPos2D))
             DrawLine(entPos2D.x, entPos2D.y, windowWidth / 2, windowHeight, 2, color);
     }
+    
     //aqui se dibuja
     //DrawFilledRect(25, 25, 100, 100, D3DCOLOR_ARGB(255, 255, 255, 255));
     //DrawFilledRect(windowWidth / 2 - 2, windowHeight / 2 - 2, 4, 4, D3DCOLOR_ARGB(255, 255, 255, 255));
@@ -246,10 +251,11 @@ DWORD WINAPI MainThread(HMODULE hModule)
     moduleBase = (DWORD)GetModuleHandle("client.dll");
     */
 
-
+    bool nigger = false;
     while (true)
     {
         hack->Update();
+        int closestEnemy = hack->FindClosestEnemyToCrosshair();
         if (GetAsyncKeyState(VK_END) & 1)
         {
             break;
@@ -257,7 +263,18 @@ DWORD WINAPI MainThread(HMODULE hModule)
 
         if (GetAsyncKeyState(VK_MENU /*alt key*/))
         {
-            //Trigger();
+            int position = hack->FindClosestEnemyToCrosshair();
+            if (position != -1)
+                hack->AimBot(position);
+        }
+
+        if (GetAsyncKeyState(VK_F2 /*alt key*/))
+        {
+            nigger = !nigger;
+        }
+
+        if (nigger) {
+            Trigger();
         }
 
         if (GetAsyncKeyState(VK_SPACE))

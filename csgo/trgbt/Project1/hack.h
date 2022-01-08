@@ -23,6 +23,7 @@
 #define PieD_i 10
 #define RodillaI_i 11
 #define PieI_i 12
+#define PI 3.14159265358979323846
 
 typedef float vec_t;
 
@@ -527,6 +528,13 @@ struct Vec3 {
     Vec3() { x = 0; y = 0; z = 0; }
     Vec3(Vector v) { x = v.x; y = v.y; z = v.z; }
     Vec3(float x1, float y1, float z1) { x = x1; y = y1; z = z1; }
+    Vec3& operator+(Vec3 arg)
+    {
+        x += arg.x;
+        y += arg.y;
+        z += arg.z;
+        return *this;
+    }
 	float x, y, z;
 };
 struct Vec4 {
@@ -558,6 +566,8 @@ public:
 
 		DEFINE_MEMBER_N(Vec3, aimPunchAngle, 0x303C);
 
+        DEFINE_MEMBER_N(Vec3, vecVelocity, 0x114);
+
 		//DEFINE_MEMBER_N(uintptr_t, studio_hdr, 0x2950);
 	};
     /*
@@ -579,19 +589,49 @@ public:
 	EntListObj ents[32];
 };
 
+struct EnemiesInfo
+{
+    EnemiesInfo()
+    {
+        /*enemieentity[0] = nullptr;
+        enemieentity[1] = nullptr;
+        enemieentity[2] = nullptr;
+        enemieentity[3] = nullptr;
+        enemieentity[4] = nullptr;*/
+        enemieentity = nullptr;
+    }
+    //EnemiesInfo(Ent* enemieentity, int pos, bool z1) { 
+      //  enemieentity[] = x1; pos = y1; rage = z1; }
+    Ent** enemieentity;
+    int* pos;
+    bool* rage;
+    int countPlayers;
+    Ent* closestEntity;
+};
+
+
 class Hack {
 public:
 	uintptr_t dwEntityList = 0x4DD0AB4;
 	uintptr_t dwViewMatrix = 0x4DC23B4;
 	uintptr_t dwLocalPlayer = 0xDB558C;
 	uintptr_t m_fFlags = 0x104;
+    uintptr_t m_dwBoneMatrix = 0x26A8;
+    uintptr_t m_vecVelocity = 0x114;
+    uintptr_t dwClientState = 0x589FC4;
+    uintptr_t dwClientState_ViewAngles = 0x4D90;
+    uintptr_t m_vecOrigin = 0x138;
+    uintptr_t m_vecViewOffset = 0x108;
+    uintptr_t m_aimPunchAngle = 0x303C;
 
 	uintptr_t engine;
 	uintptr_t client;
 	uintptr_t* getLocalPlayer;
+    uintptr_t* clientState;
 	//uintptr_t* player;
 	Ent* localEnt;
 	EntList* entList;
+    EnemiesInfo enemies_list;
 
 	ID3DXLine* LineL;
 
@@ -599,10 +639,10 @@ public:
 	//Model_Name Model_names[14];
 
 	Vec2 crosshair2D;
-	int crosshairSizeL = 44;
-	int crosshairSizeR = 44;
-	int crosshairSizeT = 44;
-	int crosshairSizeB = 44;
+	int crosshairSizeL = 16;
+	int crosshairSizeR = 16;
+	int crosshairSizeT = 16;
+	int crosshairSizeB = 16;
 
 	float viewMatrix[16];
 
@@ -611,12 +651,22 @@ public:
     Vec3** halfSphere0;
     Vec3** halfSphere1;
 
+    Vec3 GetMyPos();
 	void Bunny();
 	void Init();
 	void Update();
 	bool CheckValidEnt(Ent* ent);
+    bool CheckValidEntStart(Ent* ent);
 	bool WorldToScreen(Vec3 pos, Vec2& screen);
     bool WorldToScreen(Vec3& pos);
 	Vec3 GetBonePos(Ent* ent, int bone);
+    Vec3 GetEnemyVel(Ent* ent);
+    Vec3* GetCurrentAngles();
+    Vec3* GetOrigin();
+    Vec3* GetViewOffset();
+    Vec3* GetPunchAngle();
+    int FindClosestEnemy(Vec3* final);
+    int FindClosestEnemyToCrosshair();
+    void AimBot(int position);
 
 };
