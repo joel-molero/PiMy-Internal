@@ -623,6 +623,7 @@ public:
     uintptr_t m_vecOrigin = 0x138;
     uintptr_t m_vecViewOffset = 0x108;
     uintptr_t m_aimPunchAngle = 0x303C;
+    uintptr_t m_iCrosshairId = 0x11838;
 
 	uintptr_t engine;
 	uintptr_t client;
@@ -643,6 +644,8 @@ public:
 	int crosshairSizeR = 16;
 	int crosshairSizeT = 16;
 	int crosshairSizeB = 16;
+    bool wa;
+    clock_t time, time2;
 
 	float viewMatrix[16];
 
@@ -655,6 +658,8 @@ public:
 	void Bunny();
 	void Init();
 	void Update();
+    void EntityListReload();
+    void Trigger();
 	bool CheckValidEnt(Ent* ent);
     bool CheckValidEntStart(Ent* ent);
 	bool WorldToScreen(Vec3 pos, Vec2& screen);
@@ -665,7 +670,7 @@ public:
     Vec3* GetOrigin();
     Vec3* GetViewOffset();
     Vec3* GetPunchAngle();
-    int FindClosestEnemy(Vec3* final);
+    //int FindClosestEnemy(Vec3* final);
     int FindClosestEnemyToCrosshair();
     void AimBot(int position);
 

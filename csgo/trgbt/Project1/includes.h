@@ -6,6 +6,9 @@
 #include <d3dx9.h>
 #include <assert.h>
 #include <cmath>
+#include <thread>
+#include <chrono>
+#include <atomic>
 
 #pragma comment(lib, "d3d9.lib");
 

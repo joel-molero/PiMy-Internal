@@ -21,7 +21,7 @@ template<typename T> T RPM(uintptr_t address) {
     try { return *(T*)address; }
     catch (...) { return T(); }
 }
-
+/*
 uintptr_t getLocalPlayer() { //This will get the address to localplayer. 
     return RPM< uintptr_t>(moduleBase + dwLocalPlayer);
 }
@@ -42,9 +42,29 @@ int getTeam(uintptr_t player) {
 int getCrosshairID(uintptr_t player) {
     return RPM<int>(player + m_iCrosshairId);
 }
+*/
+void* d3d9Device[119];
+BYTE EndSceneBytes[7]{ 0 };
+tEndScene oEndScene = nullptr;
+extern LPDIRECT3DDEVICE9 pDevice = nullptr;
+Hack* hack;
+//std::atomic<bool> huha = false;
 
 void Trigger()
 {
+    int CrosshairID = *(int*)(*hack->getLocalPlayer + m_iCrosshairId);
+    int CrosshairTeam = hack->entList->ents[CrosshairID - 1].ent->iTeamNum;
+    int LocalTeam = hack->localEnt->iTeamNum;
+
+    if (CrosshairID > 0 && CrosshairID < 32 && LocalTeam != CrosshairTeam)
+    {
+
+        mouse_event(MOUSEEVENTF_LEFTDOWN, NULL, NULL, 0, 0);
+        mouse_event(MOUSEEVENTF_LEFTUP, NULL, NULL, 0, 0);
+        //std::this_thread::sleep_for(std::chrono::milliseconds(100)); //Optional
+    }
+
+    /*
     int CrosshairID = getCrosshairID(getLocalPlayer());
     int CrosshairTeam = getTeam(getPlayer(CrosshairID - 1));
     int LocalTeam = getTeam(getLocalPlayer());
@@ -55,49 +75,18 @@ void Trigger()
             mouse_event(MOUSEEVENTF_LEFTUP, NULL, NULL, 0, 0);
             Sleep(100); //Optional
     }
+    */
 }
-/*
-void BunnyHop()
-{
-    int chhc = flag(getLocalPlayer());
-    if ( chhc == 257)
-    {
-        INPUT inputs[2] = {};
-        inputs[0].type = INPUT_KEYBOARD;
-        inputs[0].ki.time = 0;
-        inputs[0].ki.wVk = 0;
-        inputs[0].ki.dwExtraInfo = 0;
-        inputs[0].ki.dwFlags = KEYEVENTF_SCANCODE;
-        inputs[0].ki.wScan = 0x1B;
 
-        inputs[1].type = INPUT_KEYBOARD;
-        inputs[1].ki.time = 0;
-        inputs[1].ki.wVk = 0;
-        inputs[1].ki.dwExtraInfo = 0;
-        inputs[1].ki.wScan = 0x1B;
-        inputs[1].ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
-        
-        
-
-        UINT uSent = SendInput(ARRAYSIZE(inputs), inputs, sizeof(INPUT));
-        Sleep(50);
-    }
-}
-*/
-void* d3d9Device[119];
-BYTE EndSceneBytes[7]{ 0 };
-tEndScene oEndScene = nullptr;
-extern LPDIRECT3DDEVICE9 pDevice = nullptr;
-Hack* hack;
 
 void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
 
     if (!pDevice)
         pDevice = o_pDevice;
 
-    for (int i = 1; i < 32; i++) {
+    for (int i = 0; i < hack->enemies_list.countPlayers; i++) {
         Vec2 Coords_bones[13];
-        Ent* curEnt = hack->entList->ents[i].ent;
+        Ent* curEnt = hack->entList->ents[hack->enemies_list.pos[i]].ent;
         if (!hack->CheckValidEnt(curEnt))
             continue;
 
@@ -105,9 +94,10 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
         uintptr_t* aux = (uintptr_t*)((uintptr_t)curEnt + m_pStudioHdr);
         uintptr_t* aux2 = (uintptr_t*)(*aux);
         studiohdr_t* studio_hdr = (studiohdr_t*)(*aux2);
-        /*
+        
         if (!(curEnt->iTeamNum == hack->localEnt->iTeamNum))
         {
+            /*
             for (int i = 0; i < studio_hdr->hitbox_count; i++)
             {
                 mstudiohitboxset_t* mstudiohitbox_set = studio_hdr->pHitboxSet(i);
@@ -134,34 +124,35 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
                     }
                 }
             }
-        }
-        */
+            */
 
-        for (int i = 0; i < studio_hdr->bone_count; i++)
-        {
-            mstudiobone_t* papyrusBone = studio_hdr->pBone(i);
 
-            if ((papyrusBone->flags & BONE_USED_BY_HITBOX) && (papyrusBone->parent != -1))
+
+            for (int i = 0; i < studio_hdr->bone_count; i++)
             {
-                Vec3 childSansBone3D = hack->GetBonePos(curEnt, i);
-                //Vec3 childSansBone3D(papyrusBone->poseToBone[0][3], papyrusBone->poseToBone[1][3], papyrusBone->poseToBone[2][3]);
-                //Vec3 childSansBone3D(papyrusBone->pos.x, papyrusBone->pos.y, papyrusBone->pos.z);
-                //mstudiobone_t* fatherAlphysBone_t = studio_hdr->pBone(papyrusBone->parent);
+                mstudiobone_t* papyrusBone = studio_hdr->pBone(i);
 
-                //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->poseToBone[0][3], fatherAlphysBone_t->poseToBone[1][3], fatherAlphysBone_t->poseToBone[2][3]);
-                //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->pos.x, fatherAlphysBone_t->pos.y, fatherAlphysBone_t->pos.z);
-                Vec3 fatherAlphysBone3D = hack->GetBonePos(curEnt, papyrusBone->parent);
-
-                Vec2 fatherAlphysBone2D, childSansBone2D;
-                if (!(hack->WorldToScreen(fatherAlphysBone3D, fatherAlphysBone2D)) || !(hack->WorldToScreen(childSansBone3D, childSansBone2D)))
+                if ((papyrusBone->flags & BONE_USED_BY_HITBOX) && (papyrusBone->parent != -1))
                 {
-                    continue;
+                    Vec3 childSansBone3D = hack->GetBonePos(curEnt, i);
+                    //Vec3 childSansBone3D(papyrusBone->poseToBone[0][3], papyrusBone->poseToBone[1][3], papyrusBone->poseToBone[2][3]);
+                    //Vec3 childSansBone3D(papyrusBone->pos.x, papyrusBone->pos.y, papyrusBone->pos.z);
+                    //mstudiobone_t* fatherAlphysBone_t = studio_hdr->pBone(papyrusBone->parent);
+
+                    //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->poseToBone[0][3], fatherAlphysBone_t->poseToBone[1][3], fatherAlphysBone_t->poseToBone[2][3]);
+                    //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->pos.x, fatherAlphysBone_t->pos.y, fatherAlphysBone_t->pos.z);
+                    Vec3 fatherAlphysBone3D = hack->GetBonePos(curEnt, papyrusBone->parent);
+
+                    Vec2 fatherAlphysBone2D, childSansBone2D;
+                    if (!(hack->WorldToScreen(fatherAlphysBone3D, fatherAlphysBone2D)) || !(hack->WorldToScreen(childSansBone3D, childSansBone2D)))
+                    {
+                        continue;
+                    }
+                    DrawLine(fatherAlphysBone2D, childSansBone2D, 2, D3DCOLOR_ARGB(255, 0, 255, 0));
+
                 }
-                DrawLine(fatherAlphysBone2D, childSansBone2D, 2, D3DCOLOR_ARGB(255, 0, 255, 0));
-                
             }
         }
-
         
 
         D3DCOLOR color;
@@ -251,7 +242,8 @@ DWORD WINAPI MainThread(HMODULE hModule)
     moduleBase = (DWORD)GetModuleHandle("client.dll");
     */
 
-    bool nigger = false;
+    bool trig = false;
+    
     while (true)
     {
         hack->Update();
@@ -268,18 +260,28 @@ DWORD WINAPI MainThread(HMODULE hModule)
                 hack->AimBot(position);
         }
 
-        if (GetAsyncKeyState(VK_F2 /*alt key*/))
+        if (GetAsyncKeyState(VK_F2 /*alt key*/) & 1)
         {
-            nigger = !nigger;
+            trig = !trig;
         }
-
-        if (nigger) {
-            Trigger();
+ 
+        if (trig) {
+            
+            std::thread t1(Trigger);
+            //hack->Trigger();
+            
+            t1.join();
         }
-
+        
         if (GetAsyncKeyState(VK_SPACE))
         {
             hack->Bunny();
+        }
+
+
+        if (GetAsyncKeyState(VK_F1))
+        {
+            hack->EntityListReload();
         }
     }
     Patch((BYTE*)d3d9Device[42], EndSceneBytes, 7);
