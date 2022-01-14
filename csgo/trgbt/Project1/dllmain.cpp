@@ -83,6 +83,11 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
 
     if (!pDevice)
         pDevice = o_pDevice;
+    if (hack->menu)
+    {
+        hack->UpdateMenu();
+    }
+    //DrawFilledRect(10, 10, XSizePressButton, YSizePressButton, D3DCOLOR_ARGB(255, 105, 105, 105));
 
     for (int i = 0; i < hack->enemies_list.countPlayers; i++) {
         Vec2 Coords_bones[13];
@@ -94,6 +99,7 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
         uintptr_t* aux = (uintptr_t*)((uintptr_t)curEnt + m_pStudioHdr);
         uintptr_t* aux2 = (uintptr_t*)(*aux);
         studiohdr_t* studio_hdr = (studiohdr_t*)(*aux2);
+        
         
         if (!(curEnt->iTeamNum == hack->localEnt->iTeamNum))
         {
@@ -126,72 +132,76 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
             }
             */
 
-
-
-            for (int i = 0; i < studio_hdr->bone_count; i++)
+            if (hack->wallhack)
             {
-                mstudiobone_t* papyrusBone = studio_hdr->pBone(i);
 
-                if ((papyrusBone->flags & BONE_USED_BY_HITBOX) && (papyrusBone->parent != -1))
+                for (int j = 0; j < studio_hdr->bone_count; j++)
                 {
-                    Vec3 childSansBone3D = hack->GetBonePos(curEnt, i);
-                    //Vec3 childSansBone3D(papyrusBone->poseToBone[0][3], papyrusBone->poseToBone[1][3], papyrusBone->poseToBone[2][3]);
-                    //Vec3 childSansBone3D(papyrusBone->pos.x, papyrusBone->pos.y, papyrusBone->pos.z);
-                    //mstudiobone_t* fatherAlphysBone_t = studio_hdr->pBone(papyrusBone->parent);
+                    mstudiobone_t* papyrusBone = studio_hdr->pBone(j);
 
-                    //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->poseToBone[0][3], fatherAlphysBone_t->poseToBone[1][3], fatherAlphysBone_t->poseToBone[2][3]);
-                    //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->pos.x, fatherAlphysBone_t->pos.y, fatherAlphysBone_t->pos.z);
-                    Vec3 fatherAlphysBone3D = hack->GetBonePos(curEnt, papyrusBone->parent);
-
-                    Vec2 fatherAlphysBone2D, childSansBone2D;
-                    if (!(hack->WorldToScreen(fatherAlphysBone3D, fatherAlphysBone2D)) || !(hack->WorldToScreen(childSansBone3D, childSansBone2D)))
+                    if ((papyrusBone->flags & BONE_USED_BY_HITBOX) && (papyrusBone->parent != -1))
                     {
-                        continue;
-                    }
-                    DrawLine(fatherAlphysBone2D, childSansBone2D, 2, D3DCOLOR_ARGB(255, 0, 255, 0));
+                        Vec3 childSansBone3D = hack->GetBonePos(curEnt, j);
+                        //Vec3 childSansBone3D(papyrusBone->poseToBone[0][3], papyrusBone->poseToBone[1][3], papyrusBone->poseToBone[2][3]);
+                        //Vec3 childSansBone3D(papyrusBone->pos.x, papyrusBone->pos.y, papyrusBone->pos.z);
+                        //mstudiobone_t* fatherAlphysBone_t = studio_hdr->pBone(papyrusBone->parent);
 
+                        //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->poseToBone[0][3], fatherAlphysBone_t->poseToBone[1][3], fatherAlphysBone_t->poseToBone[2][3]);
+                        //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->pos.x, fatherAlphysBone_t->pos.y, fatherAlphysBone_t->pos.z);
+                        Vec3 fatherAlphysBone3D = hack->GetBonePos(curEnt, papyrusBone->parent);
+
+                        Vec2 fatherAlphysBone2D, childSansBone2D;
+                        if (!(hack->WorldToScreen(fatherAlphysBone3D, fatherAlphysBone2D)) || !(hack->WorldToScreen(childSansBone3D, childSansBone2D)))
+                        {
+                            continue;
+                        }
+                        DrawLine(fatherAlphysBone2D, childSansBone2D, 2, global_colors[hack->enemies_list.colors[i]]);
+
+                    }
                 }
             }
         }
         
-
-        D3DCOLOR color;
-
-        if (curEnt->iTeamNum == hack->localEnt->iTeamNum)
-            color = D3DCOLOR_ARGB(255, 0, 255, 0);
-        else
-            color = D3DCOLOR_ARGB(255, 255, 0, 0);
-
-        Vec2 entPos2D;
-        /*
-        bool lodibuja = true;
-        for (int i = 0; i < 13; i++)
+        if (hack->lines_behind)
         {
-            if (!(hack->WorldToScreen(hack->GetBonePos(curEnt, hack->Bones[i]), Coords_bones[i])))
+            D3DCOLOR color;
+
+            if (curEnt->iTeamNum == hack->localEnt->iTeamNum)
+                color = D3DCOLOR_ARGB(255, 0, 255, 0);
+            else
+                color = D3DCOLOR_ARGB(255, 255, 0, 0);
+
+            Vec2 entPos2D;
+            /*
+            bool lodibuja = true;
+            for (int i = 0; i < 13; i++)
             {
-                lodibuja = false;
-                break;
+                if (!(hack->WorldToScreen(hack->GetBonePos(curEnt, hack->Bones[i]), Coords_bones[i])))
+                {
+                    lodibuja = false;
+                    break;
+                }
             }
-        }
-        if (lodibuja)
-        {
-            DrawLine(Coords_bones[Cabeza_i], Coords_bones[Cuello_i], 10, color);
-            DrawLine(Coords_bones[Pelvis_i], Coords_bones[Cuello_i], 10, color);
-            DrawLine(Coords_bones[HombroD_i], Coords_bones[Cuello_i], 10, color);
-            DrawLine(Coords_bones[HombroI_i], Coords_bones[Cuello_i], 10, color);
-            DrawLine(Coords_bones[HombroD_i], Coords_bones[CodoD_i], 10, color);
-            DrawLine(Coords_bones[HombroI_i], Coords_bones[CodoI_i], 10, color);
-            DrawLine(Coords_bones[ManoD_i], Coords_bones[CodoD_i], 10, color);
-            DrawLine(Coords_bones[ManoI_i], Coords_bones[CodoI_i], 10, color);
-            DrawLine(Coords_bones[Pelvis_i], Coords_bones[RodillaI_i], 10, color);
-            DrawLine(Coords_bones[Pelvis_i], Coords_bones[RodillaD_i], 10, color);
-            DrawLine(Coords_bones[PieI_i], Coords_bones[RodillaI_i], 10, color);
-            DrawLine(Coords_bones[PieD_i], Coords_bones[RodillaD_i], 10, color);
-        }
-        */
+            if (lodibuja)
+            {
+                DrawLine(Coords_bones[Cabeza_i], Coords_bones[Cuello_i], 10, color);
+                DrawLine(Coords_bones[Pelvis_i], Coords_bones[Cuello_i], 10, color);
+                DrawLine(Coords_bones[HombroD_i], Coords_bones[Cuello_i], 10, color);
+                DrawLine(Coords_bones[HombroI_i], Coords_bones[Cuello_i], 10, color);
+                DrawLine(Coords_bones[HombroD_i], Coords_bones[CodoD_i], 10, color);
+                DrawLine(Coords_bones[HombroI_i], Coords_bones[CodoI_i], 10, color);
+                DrawLine(Coords_bones[ManoD_i], Coords_bones[CodoD_i], 10, color);
+                DrawLine(Coords_bones[ManoI_i], Coords_bones[CodoI_i], 10, color);
+                DrawLine(Coords_bones[Pelvis_i], Coords_bones[RodillaI_i], 10, color);
+                DrawLine(Coords_bones[Pelvis_i], Coords_bones[RodillaD_i], 10, color);
+                DrawLine(Coords_bones[PieI_i], Coords_bones[RodillaI_i], 10, color);
+                DrawLine(Coords_bones[PieD_i], Coords_bones[RodillaD_i], 10, color);
+            }
+            */
 
-        if (hack->WorldToScreen(curEnt->vecOrigin, entPos2D))
-            DrawLine(entPos2D.x, entPos2D.y, windowWidth / 2, windowHeight, 2, color);
+            if (hack->WorldToScreen(curEnt->vecOrigin, entPos2D))
+                DrawLine(entPos2D.x, entPos2D.y, windowWidth / 2, windowHeight, 2, color);
+        }
     }
     
     //aqui se dibuja
@@ -242,7 +252,6 @@ DWORD WINAPI MainThread(HMODULE hModule)
     moduleBase = (DWORD)GetModuleHandle("client.dll");
     */
 
-    bool trig = false;
     
     while (true)
     {
@@ -253,19 +262,22 @@ DWORD WINAPI MainThread(HMODULE hModule)
             break;
         }
 
-        if (GetAsyncKeyState(VK_MENU /*alt key*/))
+        if (hack->aim)
         {
-            int position = hack->FindClosestEnemyToCrosshair();
-            if (position != -1)
-                hack->AimBot(position);
+            if (GetAsyncKeyState(VK_MENU /*alt key*/))
+            {
+                int position = hack->FindClosestEnemyToCrosshair();
+                if (position != -1)
+                    hack->AimBot(position);
+            }
         }
 
         if (GetAsyncKeyState(VK_F2 /*alt key*/) & 1)
         {
-            trig = !trig;
+            hack->trigger = !hack->trigger;
         }
  
-        if (trig) {
+        if (hack->trigger) {
             
             std::thread t1(Trigger);
             //hack->Trigger();
@@ -273,11 +285,18 @@ DWORD WINAPI MainThread(HMODULE hModule)
             t1.join();
         }
         
-        if (GetAsyncKeyState(VK_SPACE))
+        if (hack->bunny)
         {
-            hack->Bunny();
+            if (GetAsyncKeyState(VK_SPACE))
+            {
+                hack->Bunny();
+            }
         }
 
+        if (GetAsyncKeyState(VK_ESCAPE) & 1)
+        {
+            hack->menu = !hack->menu;
+        }
 
         if (GetAsyncKeyState(VK_F1))
         {

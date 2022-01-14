@@ -1,5 +1,7 @@
 #pragma once
 
+#include "drawing.h"
+
 #define STR_MERGE_IMPL(a, b) a##b
 #define STR_MERGE(a, b) STR_MERGE_IMPL(a, b)
 #define MAKE_PAD(size) STR_MERGE(_pad, __COUNTER__)[size]
@@ -8,6 +10,14 @@
 #define FLOAT32_NAN_BITS     (unsigned long)0x7FC00000
 #define FLOAT32_NAN          BitsToFloat( FLOAT32_NAN_BITS )
 #define BONE_USED_BY_HITBOX            0x00000100
+
+#define XSizePressButton 100
+#define YSizePressButton 40
+#define XSizeButton 50
+#define YSizeButton 20
+
+#define SizeColorButton 20
+#define NumColors 6
 
 #define VEC_T_NAN FLOAT32_NAN
 #define Cabeza_i 0
@@ -26,7 +36,47 @@
 #define PI 3.14159265358979323846
 
 typedef float vec_t;
+const D3DCOLOR global_colors[NumColors] = {
 
+    //Green
+    D3DCOLOR_ARGB(255, 0, 255, 0),
+
+    //Red
+    D3DCOLOR_ARGB(255, 255, 0, 0),
+
+    //Blue
+    D3DCOLOR_ARGB(255, 0, 0, 255),
+
+    //Orange
+    D3DCOLOR_ARGB(255, 255, 92, 0),
+
+    //Purple
+    D3DCOLOR_ARGB(255, 84, 22, 180),
+
+    //Brownn...???
+    D3DCOLOR_ARGB(255, 80, 40, 18)
+};
+
+const D3DCOLOR global_colors_brighter[NumColors] = {
+
+    //Green
+    D3DCOLOR_ARGB(255, 0, 200, 0),
+
+    //Red
+    D3DCOLOR_ARGB(255, 255, 0, 0),
+
+    //Blue
+    D3DCOLOR_ARGB(255, 0, 0, 255),
+
+    //Orange
+    D3DCOLOR_ARGB(255, 255, 92, 0),
+
+    //Purple
+    D3DCOLOR_ARGB(255, 84, 22, 180),
+
+    //Brownn...???
+    D3DCOLOR_ARGB(255, 80, 40, 18)
+};
 class QAngleByValue;
 
 class QAngle
@@ -503,6 +553,10 @@ struct Model_Name {
 };
 */
 
+/*void DrawFilledRect(int x, int y, int w, int h, D3DCOLOR color) {
+    D3DRECT rect = { x,y,x + w, y + h };
+    pDevice->Clear(1, &rect, D3DCLEAR_TARGET, color, 0, 0);
+}*/
 
 struct Bone_Order{
 	char Cabeza;
@@ -605,11 +659,242 @@ struct EnemiesInfo
     Ent** enemieentity;
     int* pos;
     bool* rage;
+    int* colors;
     int countPlayers;
     Ent* closestEntity;
 };
+class Button {
 
+public:
 
+    Button() {
+        x = 0;
+        y = 0;
+    }
+
+    ~Button() {
+
+    }
+
+    //posición del botón (suponer tamaño constante.)
+    int x, y;
+
+    virtual bool isMouseOn(POINT p) {
+        return false;
+    }
+    virtual void Draw(POINT p) {
+
+    }
+    virtual bool Click(POINT p) {
+        return false;
+    }
+};
+class BoolButton: public Button{
+public:    
+    BoolButton(int X, int Y, bool* Associated)
+    {
+        x = X;
+        y = Y;
+        associated = Associated;
+    }
+
+    ~BoolButton();
+
+    BoolButton(){
+        associated = nullptr;
+    }
+
+    void set(int X, int Y, bool* Associated)
+    {
+        x = X;
+        y = Y;
+        associated = Associated;
+    }
+
+    virtual bool isMouseOn(POINT p)
+    {
+        if (p.x > x && p.x < x+XSizeButton)
+        {
+            if (p.y > y && p.y < y+YSizeButton)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    virtual bool Click(POINT p);
+
+    virtual void Draw(POINT p);
+
+    
+    //puntero del booleano asociado al botón.
+    bool* associated;
+    //std::string text;
+};
+
+class ColorButton : public Button {
+
+public:
+    ColorButton() {
+
+    }
+    void set(int X, int Y)
+    {
+        x = X;
+        y = Y;
+    }
+    /*ColorButton(int X, int Y) {
+        x = X;
+        y = Y;
+    }*/
+    virtual bool isMouseOn(POINT p)
+    {
+        if (p.x > x && p.x < x + SizeColorButton)
+        {
+            if (p.y > y && p.y < y + SizeColorButton)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    //virtual bool Click(POINT p);
+
+    virtual void Draw(POINT p, int num_color, bool selected);
+
+    //int* color;
+};
+
+class HumanButton: public Button {
+    //Struct de los botones de enemigos
+public:
+    HumanButton(int x, int y, bool* rage, int* num_c)
+    {
+        colors = new ColorButton[NumColors]; 
+        
+        colors[0].set(x, y + 40);
+        colors[1].set(x + SizeColorButton + 10, y + 40);
+        colors[2].set(x + 2 * SizeColorButton + 20, y + 40);
+
+        colors[3].set(x, y + SizeColorButton + 50);
+        colors[4].set(x + SizeColorButton + 10, y + SizeColorButton + 50);
+        colors[5].set(x + 2 * SizeColorButton + 20, y + SizeColorButton + 50);
+
+        ragebutton = new BoolButton(x + (3 * SizeColorButton + 20) / 2 - XSizeButton / 2, y + 2 * SizeColorButton + 60, rage);
+
+        num_color = num_c;
+    }
+
+    virtual bool Click(POINT p) {
+
+        if (ragebutton->Click(p))
+        {
+            return true;
+        }
+        else
+        {
+            for (int i = 0; i < NumColors; i++)
+            {
+                if (colors[i].isMouseOn(p)) {
+
+                    *num_color = i;
+
+                    return true;
+
+                }
+            }
+        }
+
+        return false;
+    }
+
+    virtual void Draw(POINT p) {
+        for (int i = 0; i < NumColors; i++)
+        {
+            if (*num_color == i)
+            {
+                colors[i].Draw(p, i, true);
+            }
+            else
+            {
+                colors[i].Draw(p, i, false);
+            }
+        }
+
+        ragebutton->Draw(p);
+    }
+
+    ColorButton* colors;
+
+    BoolButton* ragebutton;
+
+    //Indice color actual asociado
+    int* num_color;
+};
+class PressButton
+{
+    //Struct de distintas pestañas del menú. 
+    //Estos botones tienen la peculiaridad de que pueden estar apretados.
+    //Cuando uno está apretado el resto está desapretado. Para desapretarlo hay que apretar otro. Por ende siempre hay uno apretado.
+public:
+    PressButton() {
+        x = 0;
+        y = 0;
+        pressed = false;
+        //buttons = nullptr;
+        numbuttons = 0;
+    }
+
+    void set(bool Pressed, int X, int Y, std::vector<Button*> Buttons, int Numbuttons)
+    {
+        x = X;
+        y = Y;
+        pressed = Pressed;
+        buttons = Buttons;
+        numbuttons = Numbuttons;
+    }
+
+    //funcion que devuelve si el ratón está encima o no
+    bool isMouseOn(POINT p)
+    {
+        if (p.x > x && p.x < x+XSizePressButton)
+        {
+            if (p.y > y && p.y < y+YSizePressButton)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void Draw(POINT p);
+
+    void DrawButtons(POINT p)
+    {
+        for (int i = 0; i < numbuttons; i++)
+        {
+            buttons[i]->Draw(p);
+        }
+    }
+
+    //Posiciones del botón (suponer tamaño constante)
+    int x, y;
+
+    //Si está apretado.
+    bool pressed;
+
+    //Lista de botones asociados a la pestaña.
+    std::vector<Button*> buttons;
+
+    //numero de botones asociados.
+    int numbuttons;
+
+};
 class Hack {
 public:
 	uintptr_t dwEntityList = 0x4DD0AB4;
@@ -635,6 +920,8 @@ public:
     EnemiesInfo enemies_list;
 
 	ID3DXLine* LineL;
+    
+    HWND window;
 
 	//Bone_Order Bones_Orders[9];
 	//Model_Name Model_names[14];
@@ -653,6 +940,18 @@ public:
 
     Vec3** halfSphere0;
     Vec3** halfSphere1;
+
+    //booleanos
+    bool trigger;
+    bool bunny;
+    bool aim;
+    bool wallhack;
+    bool lines_behind;
+
+    bool menu;
+    int buttonpressed;
+    PressButton* buttons;
+    int numButtons;
 
     Vec3 GetMyPos();
 	void Bunny();
@@ -673,5 +972,8 @@ public:
     //int FindClosestEnemy(Vec3* final);
     int FindClosestEnemyToCrosshair();
     void AimBot(int position);
+    void InitializeMenu();
+    void UpdateMenu();
+
 
 };

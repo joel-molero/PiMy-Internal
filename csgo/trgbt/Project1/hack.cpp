@@ -1,5 +1,6 @@
 #include "includes.h"
 
+
 void Hack::EntityListReload() {
 	getLocalPlayer = (uintptr_t*)(client + dwLocalPlayer);
 	localEnt = (Ent*)*getLocalPlayer;
@@ -18,6 +19,7 @@ void Hack::EntityListReload() {
 	enemies_list.enemieentity = new Ent * [count];
 	enemies_list.pos = new int[count];
 	enemies_list.rage = new bool[count];
+	enemies_list.colors = new int[count];
 	enemies_list.countPlayers = count;
 
 	count = 0;
@@ -30,12 +32,124 @@ void Hack::EntityListReload() {
 			enemies_list.enemieentity[count] = curEnt;
 			enemies_list.pos[count] = i;
 			enemies_list.rage[count] = false;
+			enemies_list.colors[count] = 0;
 			count++;
 		}
 	}
+
+	std::vector<Button*> botons1;
+	int separation = 10 + 3 * SizeColorButton + 30;
+
+	for (int i = 0; i < enemies_list.countPlayers; i++)
+	{
+		botons1.emplace_back(new HumanButton((windowWidth / 2) + 10 +separation*i, YSizePressButton + 10, &enemies_list.rage[i], &enemies_list.colors[i]));
+	}
+
+	buttons[1].buttons = botons1;
+
+	buttons[1].numbuttons = enemies_list.countPlayers;
 }
 
+void Hack::UpdateMenu()
+{
+	window = GetForegroundWindow();
+	POINT p;
+	GetCursorPos(&p);
+	ScreenToClient(window, &p);
 
+	//si el click se ha pulsado miramos antes de nada si ha pulsado alguna pestaña para ponerla como pressed y poder drawear sus botones.
+	if (GetAsyncKeyState(VK_LBUTTON) & 1)
+	{
+
+		bool pesta = false;
+		for (int i = 0; i < numButtons; i++)
+		{
+			if (buttons[i].isMouseOn(p))
+			{
+				buttons[buttonpressed].pressed = false;
+				buttons[i].pressed = true;
+				buttonpressed = i;
+				pesta = true;
+				break;
+			}
+		}
+
+		if (!pesta)
+		{
+			for (int i = 0; i < buttons[buttonpressed].numbuttons; i++)
+			{
+				if(buttons[buttonpressed].buttons[i]->Click(p))
+				{
+					break;
+				}
+			}
+
+		}
+	}
+
+	//Cuadrado Principal.
+	DrawFilledRect(windowWidth / 2, 0, windowWidth / 2, windowHeight, D3DCOLOR_ARGB(255, 192, 192, 192));
+
+	for (int i = 0; i < numButtons; i++)
+	{
+		buttons[i].Draw(p);
+	}
+
+	buttons[buttonpressed].DrawButtons(p);
+
+
+	//una vez seteado el botón que está pulsado en este momento drawearemos sus botones.
+
+}
+void Hack::InitializeMenu()
+{
+	//USING UNIQUE PTR HE LEIO POR INTERNE QUE MEHO PERO NIDEA DE COMO USARLLO)
+	//std::vector<std::unique_ptr<Button>> botons;
+	std::vector<Button*> botons;
+	botons.emplace_back(new BoolButton((windowWidth / 2) + 10, YSizePressButton + 10, &trigger));
+	botons.emplace_back(new BoolButton((windowWidth / 2) + 10, YSizePressButton + 20 + YSizeButton, &aim));
+	botons.emplace_back(new BoolButton((windowWidth / 2) + 10, YSizePressButton + 30 + 2 * YSizeButton, &bunny));
+	botons.emplace_back(new BoolButton((windowWidth / 2) + 10, YSizePressButton + 60 + 3 * YSizeButton, &lines_behind));
+	botons.emplace_back(new BoolButton((windowWidth / 2) + 10, YSizePressButton + 70 + 4 * YSizeButton, &wallhack));
+
+
+	std::vector<Button*> botons1;
+
+	//botons1.emplace_back(new HumanButton((windowWidth / 2) + 10, YSizePressButton + 10, &enemies_list.rage[0], &enemies_list.colors[0]));
+	/*Button* botons[5]; //= { new BoolButton() };
+
+	botons[0] = &(new BoolButton());
+
+	botons = new BoolButton[5];
+
+	botons[0].set((windowWidth / 2) + 10, YSizePressButton + 10, &trigger);
+	botons[1].set((windowWidth / 2) + 10, YSizePressButton + 20 + YSizeButton, &aim);
+	botons[2].set((windowWidth / 2) + 10, YSizePressButton + 30 + 2*YSizeButton, &bunny);
+	botons[3].set((windowWidth / 2) + 10, YSizePressButton + 60 + 3 * YSizeButton, &lines_behind);
+	botons[4].set((windowWidth / 2) + 10, YSizePressButton + 70 + 4 * YSizeButton, &wallhack);
+
+	Button* botons_tr = botons;*/
+	//Button* botons_tr = new Button[5];
+
+	//botons_tr[0] = botons[0];
+
+	PressButton* Pest = new PressButton[3];
+
+	std::vector<Button*> botons2;
+
+
+
+	Pest[0].set(true, (windowWidth / 2), 0, botons, 5);
+	Pest[1].set(false, (windowWidth / 2) + XSizePressButton, 0, botons1, 0);
+	Pest[2].set(false, (windowWidth / 2) + 2*XSizePressButton, 0, botons2, 0);
+
+	numButtons = 3;
+	buttonpressed = 0;
+
+	buttons = Pest;
+	
+
+}
 void Hack::Init() {
 	client = (uintptr_t)GetModuleHandle("client.dll");
 	engine = (uintptr_t)GetModuleHandle("engine.dll");
@@ -45,7 +159,24 @@ void Hack::Init() {
 	clientState = (uintptr_t*)(engine + dwClientState);
 	time = -1;
 
+	//set initial values for bools;
+	trigger = false;
+	aim = true;
+	bunny = true;
+	wallhack = true;
+	lines_behind = true;
+
+	InitializeMenu();
+
 	EntityListReload();
+
+
+	menu = true;
+
+
+
+
+	
 
 	halfSphere0 = new Vec3 *[LAYERS];
 	halfSphere1 = new Vec3 * [LAYERS];
@@ -362,6 +493,7 @@ void Hack::AimBot(int position) {
 	}
 }
 
+
 void Hack::Trigger()
 {
 	int CrosshairID = *(int*)(*getLocalPlayer + m_iCrosshairId);
@@ -375,4 +507,83 @@ void Hack::Trigger()
 		//std::this_thread::sleep_for(std::chrono::milliseconds(20));
 	}
 
+}
+
+bool BoolButton::Click(POINT p)
+{
+	if (isMouseOn(p))
+	{
+		*associated = !*associated;
+		return true;
+	}
+
+	return false;
+}
+
+void BoolButton::Draw(POINT p)
+{
+	//Si a lo que apunta es true
+	if (*associated == true)
+	{
+		//Hacemos recuadrito un par de pixeles mas grande verde, para que tenga como un recuadro verde.
+		DrawFilledRect(x - 2, y - 2, XSizeButton + 4, YSizeButton + 4, D3DCOLOR_ARGB(255, 0, 255, 0));
+
+	}
+	else
+	{
+		//Sino rojo.
+		DrawFilledRect(x - 2, y - 2, XSizeButton + 4, YSizeButton + 4, D3DCOLOR_ARGB(255, 255, 0, 0));
+	}
+
+	if (isMouseOn(p))
+	{
+		//Si el raton esta encima gris más clarito 
+		DrawFilledRect(x, y, XSizeButton, YSizeButton, D3DCOLOR_ARGB(255, 220, 220, 220));
+
+	}
+	else
+	{
+		//Sino gris menos claro sjasjsaj.
+		DrawFilledRect(x, y, XSizeButton, YSizeButton, D3DCOLOR_ARGB(255, 211, 211, 211));
+	}
+
+	//DrawText(NULL, LPCSTR(text), y, D3DCOLOR_ARGB(255, 255, 255, 255));
+}
+void PressButton::Draw(POINT p)
+{
+	if (pressed)
+	{
+		//si está pulsado hacemos el gris oscuro.
+		DrawFilledRect(x, y, XSizePressButton, YSizePressButton, D3DCOLOR_ARGB(255, 105, 105, 105));
+	}
+	else
+	{
+		if (isMouseOn(p))
+		{
+			//Si el raton está encima lo ponemos un poquito gris.
+			DrawFilledRect(x, y, XSizePressButton, YSizePressButton, D3DCOLOR_ARGB(255, 128, 128, 128));
+		}
+		else
+		{
+			//Sino gris claro
+			DrawFilledRect(x, y, XSizePressButton, YSizePressButton, D3DCOLOR_ARGB(255, 169, 169, 169));
+		}
+	}
+}
+
+void ColorButton::Draw(POINT p, int num_color, bool selected)
+{
+	if (selected)
+	{
+		DrawFilledRect(x - 2, y - 2, SizeColorButton + 4, SizeColorButton + 4, D3DCOLOR_ARGB(255, 255, 255, 0));
+	}
+
+	DrawFilledRect(x, y, SizeColorButton, SizeColorButton, global_colors[num_color]);
+
+	if (isMouseOn(p))
+	{
+		DrawFilledRect(x, y, SizeColorButton, SizeColorButton, D3DCOLOR_ARGB(1, 255, 255, 255));
+	}
+
+	
 }

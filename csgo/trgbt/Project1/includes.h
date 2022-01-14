@@ -9,6 +9,10 @@
 #include <thread>
 #include <chrono>
 #include <atomic>
+#include <vector>
+
+#include<string>
+#include<string.h>
 
 #pragma comment(lib, "d3d9.lib");
 
