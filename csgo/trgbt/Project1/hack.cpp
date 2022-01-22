@@ -1,5 +1,38 @@
 #include "includes.h"
+/*
+void Hack::GetChams() {
+	
+}
+*/
+/*
+void Hack::GetCurrentEntities(IClientEntityList* ClientEntityList) {
 
+	//entitiesE.ent1 = (Ent*)ClientEntityList->GetClientEntity(1);
+	//entitiesE.ent2 = (Ent*)ClientEntityList->GetClientEntity(2);
+	//entitiesE.ent3 = (Ent*)ClientEntityList->GetClientEntity(3);
+	//entitiesE.ent4 = (Ent*)ClientEntityList->GetClientEntity(4);
+	//entitiesE.ent5 = (Ent*)ClientEntityList->GetClientEntity(5);
+	int counter = 0;
+	int counter2 = 0;
+
+	for (int i = 0; i < 11; i++)
+	{
+		if (CheckValidEntStart((Ent*)ClientEntityList->GetClientEntity(i)))
+		{
+
+			if (((Ent*)ClientEntityList->GetClientEntity(i))->iTeamNum == localEnt->iTeamNum) {
+				entitiesE->alliedEnts[counter] = (Ent*)ClientEntityList->GetClientEntity(i);
+				counter++;
+			}
+			else {
+				entitiesE->enemyEnts[counter2] = (Ent*)ClientEntityList->GetClientEntity(i);
+				counter2++;
+			}
+		}
+
+	}
+}
+*/
 void Hack::EntityListReload() {
 	getLocalPlayer = (uintptr_t*)(client + dwLocalPlayer);
 	localEnt = (Ent*)*getLocalPlayer;
@@ -40,13 +73,30 @@ void Hack::Init() {
 	client = (uintptr_t)GetModuleHandle("client.dll");
 	engine = (uintptr_t)GetModuleHandle("engine.dll");
 	entList = (EntList*)(client + dwEntityList);
+/*
+	for (int i = 0; i < 10; i++)
+	{
+		if (CheckIfLocalEnt((Ent*)ClientEntityList->GetClientEntity(i))) {
+			localEnt = (Ent*)ClientEntityList->GetClientEntity(i);
+		}
+		
+	}
+*/
 	getLocalPlayer = (uintptr_t*)(client + dwLocalPlayer);
 	localEnt = (Ent*)*getLocalPlayer;
 	clientState = (uintptr_t*)(engine + dwClientState);
+	//entitiesE = new EntitiesS;
+
+
+	
 	time = -1;
 
-	EntityListReload();
 
+	//GetCurrentEntities(ClientEntityList);
+
+
+	EntityListReload();
+/*
 	halfSphere0 = new Vec3 *[LAYERS];
 	halfSphere1 = new Vec3 * [LAYERS];
 	for (int i = 0; i < LAYERS; i++)
@@ -54,11 +104,13 @@ void Hack::Init() {
 		halfSphere0[i] = new Vec3[SEGMENTS + 1];
 		halfSphere1[i] = new Vec3[SEGMENTS + 1];
 	}
-	
+*/
 }
 
-void Hack::Update() {
+void Hack::Update(void* ModelRenderVMT, IVModelRender* ModelRender) {
 	memcpy(&viewMatrix, (PBYTE)(client + dwViewMatrix), sizeof(viewMatrix));
+	
+
 }
 
 void Hack::Bunny() {
@@ -99,15 +151,29 @@ bool Hack::CheckValidEnt(Ent* ent) {
 		return false;
 	if (ent->isDormant)
 		return false;
+	if (ent->ArmorValue > 100)
+		return false;
 	return true;
 }
+
 
 bool Hack::CheckValidEntStart(Ent* ent) {
 	if (ent == nullptr)
 		return false;
-	if (ent == localEnt)
+	if (ent->ArmorValue > 100)
 		return false;
 	if (ent->iTeamNum == localEnt->iTeamNum)
+		return false;
+	
+	return true;
+}
+
+bool Hack::CheckIfLocalEnt(Ent* ent) {
+	if (ent == nullptr)
+		return false;
+	if (ent == localEnt)
+		return false;
+	if (ent->ArmorValue > 100)
 		return false;
 	return true;
 }
@@ -193,19 +259,19 @@ int Hack::FindClosestEnemyToCrosshair() {
 
 	for (int i = 0; i < enemies_list.countPlayers; i++)
 	{
-		if (!CheckValidEnt(entList->ents[enemies_list.pos[i]].ent))
+		if (!CheckValidEnt(enemies_list.enemieentity[i]))
 			continue;
 		//EnemieBoneMatrix = (uintptr_t)(enemies_list.enemieentity[i] + m_dwBoneMatrix);
 		//vel = GetEnemyVel(enemies_list.enemieentity[i]); ??? por que???
-		WorldToScreen(GetBonePos(entList->ents[enemies_list.pos[i]].ent, 8), enemyPos);
+		WorldToScreen(GetBonePos(enemies_list.enemieentity[i], 8), enemyPos);
 
 		distance = (((windowWidth / 2) - enemyPos.x) * ((windowWidth / 2) - enemyPos.x)) + (((windowHeight / 2) - enemyPos.y) * ((windowHeight / 2) - enemyPos.y));
 
 		if (distance < minDistance)
 		{
-			enemies_list.closestEntity = entList->ents[enemies_list.pos[i]].ent;
+			enemies_list.closestEntity = enemies_list.enemieentity[i];
 			minDistance = distance;
-			position = enemies_list.pos[i];
+			position = i;
 		}
 
 	}
@@ -339,7 +405,7 @@ void Hack::AimBot(int position) {
 	Vec3* punch = GetPunchAngle();
 
 	static Vec3* viewAngles = GetCurrentAngles();
-	Vec3 enemyPos = GetBonePos(entList->ents[position].ent, 8);
+	Vec3 enemyPos = GetBonePos(enemies_list.enemieentity[position], 8);
 
 	Vec3 deltaVec(enemyPos.x - myPos->x, enemyPos.y - myPos->y, enemyPos.z - myPos->z);
 
@@ -367,7 +433,7 @@ void Hack::Trigger()
 	int CrosshairID = *(int*)(*getLocalPlayer + m_iCrosshairId);
 	int CrosshairTeam = entList->ents[CrosshairID - 1].ent->iTeamNum;
 	int LocalTeam = localEnt->iTeamNum;
-	
+
 	if (CrosshairID > 0 && CrosshairID < 32 && LocalTeam != CrosshairTeam)
 	{
 		mouse_event(MOUSEEVENTF_LEFTDOWN, NULL, NULL, 0, 0);

@@ -269,6 +269,8 @@ private:
     mstudiobone_t(const mstudiobone_t& vOther);
 };
 
+
+
 struct mstudiobbox_t {
     int bone;                 // hitbox bone
     int group;                // intersection group
@@ -578,21 +580,19 @@ public:
     */
 };
 
-class EntListObj {
+class EntitiesS
+{
 public:
-	struct Ent* ent;
-	char padding[12];
+    Ent* enemyEnts[5];
+    Ent* alliedEnts[5];
 };
 
-class EntList {
-public:
-	EntListObj ents[32];
-};
 
 struct EnemiesInfo
 {
     EnemiesInfo()
     {
+
         /*enemieentity[0] = nullptr;
         enemieentity[1] = nullptr;
         enemieentity[2] = nullptr;
@@ -609,12 +609,504 @@ struct EnemiesInfo
     Ent* closestEntity;
 };
 
+class EntListObj {
+public:
+    struct Ent* ent;
+    char padding[12];
+};
+
+class EntList {
+public:
+    EntListObj ents[32];
+};
+
+
+class IClientEntityList
+{
+public:
+    // Get IClientNetworkable interface for specified entity
+    virtual void* GetClientNetworkable(int entnum) = 0;
+    virtual void* GetClientNetworkableFromHandle(int hEnt) = 0;
+    virtual void* GetClientUnknownFromHandle(int hEnt) = 0;
+
+    // NOTE: This function is only a convenience wrapper.
+    // It returns GetClientNetworkable( entnum )->GetIClientEntity().
+    virtual void* GetClientEntity(int entnum) = 0;
+    virtual void* GetClientEntityFromHandle(int hEnt) = 0;
+
+    // Returns number of entities currently in use
+    virtual int					NumberOfEntities(bool bIncludeNonNetworkable) = 0;
+
+    // Returns highest index actually used
+    virtual int					GetHighestEntityIndex(void) = 0;
+
+    // Sizes entity list to specified size
+    virtual void				SetMaxEntities(int maxents) = 0;
+    virtual int					GetMaxEntities() = 0;
+};
+
+
+
+
+
+template <typename Fn> __forceinline Fn GetVirtualFunction(void* pClassBase, int nFunctionIndex)
+{
+    return (Fn)((PDWORD) * (PDWORD*)pClassBase)[nFunctionIndex];
+}
+
+enum MaterialVarFlags_t
+{
+    MATERIAL_VAR_DEBUG = (1 << 0),
+    MATERIAL_VAR_NO_DEBUG_OVERRIDE = (1 << 1),
+    MATERIAL_VAR_NO_DRAW = (1 << 2),
+    MATERIAL_VAR_USE_IN_FILLRATE_MODE = (1 << 3),
+
+    MATERIAL_VAR_VERTEXCOLOR = (1 << 4),
+    MATERIAL_VAR_VERTEXALPHA = (1 << 5),
+    MATERIAL_VAR_SELFILLUM = (1 << 6),
+    MATERIAL_VAR_ADDITIVE = (1 << 7),
+    MATERIAL_VAR_ALPHATEST = (1 << 8),
+    MATERIAL_VAR_MULTIPASS = (1 << 9),
+    MATERIAL_VAR_ZNEARER = (1 << 10),
+    MATERIAL_VAR_MODEL = (1 << 11),
+    MATERIAL_VAR_FLAT = (1 << 12),
+    MATERIAL_VAR_NOCULL = (1 << 13),
+    MATERIAL_VAR_NOFOG = (1 << 14),
+    MATERIAL_VAR_IGNOREZ = (1 << 15),
+    MATERIAL_VAR_DECAL = (1 << 16),
+    MATERIAL_VAR_ENVMAPSPHERE = (1 << 17),
+    MATERIAL_VAR_NOALPHAMOD = (1 << 18),
+    MATERIAL_VAR_ENVMAPCAMERASPACE = (1 << 19),
+    MATERIAL_VAR_BASEALPHAENVMAPMASK = (1 << 20),
+    MATERIAL_VAR_TRANSLUCENT = (1 << 21),
+    MATERIAL_VAR_NORMALMAPALPHAENVMAPMASK = (1 << 22),
+    MATERIAL_VAR_NEEDS_SOFTWARE_SKINNING = (1 << 23),
+    MATERIAL_VAR_OPAQUETEXTURE = (1 << 24),
+    MATERIAL_VAR_ENVMAPMODE = (1 << 25),
+    MATERIAL_VAR_SUPPRESS_DECALS = (1 << 26),
+    MATERIAL_VAR_HALFLAMBERT = (1 << 27),
+    MATERIAL_VAR_WIREFRAME = (1 << 28),
+    MATERIAL_VAR_ALLOWALPHATOCOVERAGE = (1 << 29),
+    MATERIAL_VAR_IGNORE_ALPHA_MODULATION = (1 << 30),
+
+    // NOTE: Only add flags here that either should be read from
+    // .vmts or can be set directly from client code. Other, internal
+    // flags should to into the flag enum in imaterialinternal.h
+};
+
+enum ImageFormat
+{
+    IMAGE_FORMAT_UNKNOWN = -1,
+    IMAGE_FORMAT_RGBA8888 = 0,
+    IMAGE_FORMAT_ABGR8888,
+    IMAGE_FORMAT_RGB888,
+    IMAGE_FORMAT_BGR888,
+    IMAGE_FORMAT_RGB565,
+    IMAGE_FORMAT_I8,
+    IMAGE_FORMAT_IA88,
+    IMAGE_FORMAT_P8,
+    IMAGE_FORMAT_A8,
+    IMAGE_FORMAT_RGB888_BLUESCREEN,
+    IMAGE_FORMAT_BGR888_BLUESCREEN,
+    IMAGE_FORMAT_ARGB8888,
+    IMAGE_FORMAT_BGRA8888,
+    IMAGE_FORMAT_DXT1,
+    IMAGE_FORMAT_DXT3,
+    IMAGE_FORMAT_DXT5,
+    IMAGE_FORMAT_BGRX8888,
+    IMAGE_FORMAT_BGR565,
+    IMAGE_FORMAT_BGRX5551,
+    IMAGE_FORMAT_BGRA4444,
+    IMAGE_FORMAT_DXT1_ONEBITALPHA,
+    IMAGE_FORMAT_BGRA5551,
+    IMAGE_FORMAT_UV88,
+    IMAGE_FORMAT_UVWQ8888,
+    IMAGE_FORMAT_RGBA16161616F,
+    IMAGE_FORMAT_RGBA16161616,
+    IMAGE_FORMAT_UVLX8888,
+    IMAGE_FORMAT_R32F,			// Single-channel 32-bit floating point
+    IMAGE_FORMAT_RGB323232F,
+    IMAGE_FORMAT_RGBA32323232F,
+
+    // Depth-stencil texture formats for shadow depth mapping
+    IMAGE_FORMAT_NV_DST16,		// 
+    IMAGE_FORMAT_NV_DST24,		//
+    IMAGE_FORMAT_NV_INTZ,		// Vendor-specific depth-stencil texture
+    IMAGE_FORMAT_NV_RAWZ,		// formats for shadow depth mapping 
+    IMAGE_FORMAT_ATI_DST16,		// 
+    IMAGE_FORMAT_ATI_DST24,		//
+    IMAGE_FORMAT_NV_NULL,		// Dummy format which takes no video memory
+
+    // Compressed normal map formats
+    IMAGE_FORMAT_ATI2N,			// One-surface ATI2N / DXN format
+    IMAGE_FORMAT_ATI1N,			// Two-surface ATI1N format
+
+#if defined( _X360 )
+    // Depth-stencil texture formats
+    IMAGE_FORMAT_X360_DST16,
+    IMAGE_FORMAT_X360_DST24,
+    IMAGE_FORMAT_X360_DST24F,
+    // supporting these specific formats as non-tiled for procedural cpu access
+    IMAGE_FORMAT_LINEAR_BGRX8888,
+    IMAGE_FORMAT_LINEAR_RGBA8888,
+    IMAGE_FORMAT_LINEAR_ABGR8888,
+    IMAGE_FORMAT_LINEAR_ARGB8888,
+    IMAGE_FORMAT_LINEAR_BGRA8888,
+    IMAGE_FORMAT_LINEAR_RGB888,
+    IMAGE_FORMAT_LINEAR_BGR888,
+    IMAGE_FORMAT_LINEAR_BGRX5551,
+    IMAGE_FORMAT_LINEAR_I8,
+    IMAGE_FORMAT_LINEAR_RGBA16161616,
+
+    IMAGE_FORMAT_LE_BGRX8888,
+    IMAGE_FORMAT_LE_BGRA8888,
+#endif
+
+    NUM_IMAGE_FORMATS
+};
+
+
+struct ModelRenderInfo_t
+{
+    Vector origin;
+    QAngle angles;
+    char   pad[0x4];
+    void* pRenderable;
+    const model_t* pModel;
+    const void* pModelToWorld;
+    const void* pLightingOffset;
+    const void* pLightingOrigin;
+    int flags;
+    int entity_index;
+    int skin;
+    int body;
+    int hitboxset;
+    uintptr_t instance;
+    ModelRenderInfo_t()
+    {
+        pModelToWorld = NULL;
+        pLightingOffset = NULL;
+        pLightingOrigin = NULL;
+    }
+};
+
+struct DrawModelState_t
+{
+    void* m_pStudioHdr;
+    void* m_pStudioHWData;
+    void* m_pRenderable;
+    const void* m_pModelToWorld;
+    uintptr_t        m_decals;
+    int                        m_drawFlags;
+    int                        m_lod;
+};
+class IMaterialVar
+{
+private:
+public:
+    void SetFloatValue(float value)
+    {
+        GetVirtualFunction< void(__thiscall*)(decltype(this), float) >(this, 4)(this, value);
+    }
+
+    void SetVectorValue(float r, float g, float b)
+    {
+        GetVirtualFunction< void(__thiscall*)(decltype(this), float, float, float) >(this, 11)(this, r, g, b);
+    }
+
+    void SetStringValue(char const* value)
+    {
+        GetVirtualFunction< void(__thiscall*)(decltype(this), char const*) >(this, 6)(this, value);
+    }
+};
+
+
+class IMaterial
+{
+public:
+    // Get the name of the material.  This is a full path to
+    // the vmt file starting from "hl2/materials" (or equivalent) without
+    // a file extension.
+    virtual const char* GetName() const = 0;
+    virtual const char* GetTextureGroupName() const = 0;
+
+    // Get the preferred size/bitDepth of a preview image of a material.
+    // This is the sort of image that you would use for a thumbnail view
+    // of a material, or in WorldCraft until it uses materials to render.
+    // separate this for the tools maybe
+    virtual int/*PreviewImageRetVal_t*/ get_preview_image_properties(int* width, int* height,
+        ImageFormat* imageFormat,
+        bool* isTranslucent) const = 0;
+
+    // Get a preview image at the specified width/height and bitDepth.
+    // Will do resampling if necessary.(not yet!!! :) )
+    // Will do color format conversion. (works now.)
+    virtual int /*PreviewImageRetVal_t*/ get_preview_image(unsigned char* data,
+        int width, int height,
+        ImageFormat imageFormat) const = 0;
+    //
+    virtual int get_mapping_width() = 0;
+    virtual int get_mapping_height() = 0;
+
+    virtual int get_num_animation_frames() = 0;
+
+    // For material subrects (material pages).  Offset(u,v) and scale(u,v) are normalized to texture.
+    virtual bool in_material_page(void) = 0;
+    virtual void get_material_offset(float* pOffset) = 0;
+    virtual void get_material_scale(float* pScale) = 0;
+    virtual IMaterial* get_material_page(void) = 0;
+
+    // find a vmt variable.
+    // This is how game code affects how a material is rendered.
+    // The game code must know about the params that are used by
+    // the shader for the material that it is trying to affect.
+    virtual IMaterialVar* find_var(const char* varName, bool* found, bool complain = true) = 0;
+
+    // The user never allocates or deallocates materials.  Reference counting is
+    // used instead.  Garbage collection is done upon a call to
+    // i_material_system::UncacheUnusedMaterials.
+    virtual void increment_reference_count(void) = 0;
+    virtual void decrement_reference_count(void) = 0;
+
+    inline void add_ref()
+    {
+        increment_reference_count();
+    }
+
+    inline void release()
+    {
+        decrement_reference_count();
+    }
+
+    // Each material is assigned a number that groups it with like materials
+    // for sorting in the application.
+    virtual int get_enumeration_id(void) const = 0;
+
+    virtual void get_low_res_color_sample(float s, float t, float* color) const = 0;
+
+    // This computes the state snapshots for this material
+    virtual void recompute_state_snapshots() = 0;
+
+    // Are we translucent?
+    virtual bool is_translucent() = 0;
+
+    // Are we alphatested?
+    virtual bool is_alpha_tested() = 0;
+
+    // Are we vertex lit?
+    virtual bool is_vertex_lit() = 0;
+
+    // Gets the vertex format
+    virtual void get_vertex_format() const = 0;
+
+    // returns true if this material uses a material proxy
+    virtual bool has_proxy(void) const = 0;
+
+    virtual bool uses_env_cubemap(void) = 0;
+
+    virtual bool needs_tangent_space(void) = 0;
+
+    virtual bool needs_power_of_two_frame_buffer_texture(bool bCheckSpecificToThisFrame = true) = 0;
+    virtual bool needs_full_frame_buffer_texture(bool bCheckSpecificToThisFrame = true) = 0;
+
+    // returns true if the shader doesn't do skinning itself and requires
+    // the data that is sent to it to be preskinned.
+    virtual bool needs_software_skinning(void) = 0;
+
+    // Apply constant color or alpha modulation
+    virtual void alpha_modulate(float alpha) = 0;
+    virtual void color_modulate(float r, float g, float b) = 0;
+
+    // Material Var flags...
+    virtual void set_matrial_var_flag(MaterialVarFlags_t flag, bool on) = 0; // Not used, index outdated, see below
+    virtual bool GetMaterialVarFlag(MaterialVarFlags_t flag) const = 0;
+
+    // Gets material reflectivity
+    virtual void get_reflectivity(Vec3& reflect) = 0;
+
+    // Gets material property flags
+    virtual bool get_property_flag(int /*MaterialPropertyTypes_t*/ type) = 0;
+
+    // Is the material visible from both sides?
+    virtual bool is_two_sided() = 0;
+
+    // Sets the shader associated with the material
+    virtual void set_shader(const char* pShaderName) = 0;
+
+    // Can't be const because the material might have to precache itself.
+    virtual int get_num_passes(void) = 0;
+
+    // Can't be const because the material might have to precache itself.
+    virtual int get_texture_memory_bytes(void) = 0;
+
+    // Meant to be used with materials created using CreateMaterial
+    // It updates the materials to reflect the current values stored in the material vars
+    virtual void refresh() = 0;
+
+    // GR - returns true is material uses lightmap alpha for blending
+    virtual bool needs_lightmap_blend_alpha(void) = 0;
+
+    // returns true if the shader doesn't do lighting itself and requires
+    // the data that is sent to it to be prelighted
+    virtual bool needs_software_lighting(void) = 0;
+
+    // Gets at the shader parameters
+    virtual int shader_param_count() const = 0;
+    virtual IMaterialVar** get_shader_params(void) = 0;
+
+    // Returns true if this is the error material you get back from i_material_system::FindMaterial if
+    // the material can't be found.
+    virtual bool IsErrorMaterial() const = 0;
+
+    virtual void Unused() = 0;
+
+    // Gets the current alpha modulation
+    virtual float GetAlphaModulation() = 0;
+    virtual void GetColorModulation(float* r, float* g, float* b) = 0;
+
+    // Is this translucent given a particular alpha modulation?
+    virtual bool is_translucent_under_modulation(float fAlphaModulation = 1.0f) const = 0;
+
+    // fast find that stores the index of the found var in the string table in local cache
+    virtual IMaterialVar* find_var_fast(char const* pVarName, unsigned int* pToken) = 0;
+
+    // Sets new VMT shader parameters for the material
+    virtual void set_shader_and_params(void* pKeyValues) = 0;
+    virtual const char* get_shader_name() const = 0;
+
+    virtual void delete_if_unreferenced() = 0;
+
+    virtual bool is_sprite_card() = 0;
+
+    virtual void call_bind_proxy(void* proxyData) = 0;
+
+    virtual void refresh_preserving_material_vars() = 0;
+
+    virtual bool was_reloaded_from_whitelist() = 0;
+
+    virtual bool set_temp_excluded(bool bSet, int nExcludedDimensionLimit) = 0;
+
+    virtual int get_reference_count() const = 0;
+
+    void AlphaModulate(float alpha)
+    {
+        return GetVirtualFunction< void(__thiscall*)(decltype(this), float) >(this, 27)(this, alpha);
+    }
+
+    void SetMaterialVarFlag(MaterialVarFlags_t flag, bool on)
+    {
+        return GetVirtualFunction< void(__thiscall*)(decltype(this), MaterialVarFlags_t, bool) >(this, 29)(this, flag, on);
+    }
+
+    void ColorModulate(const float color[3])
+    {
+        return GetVirtualFunction< void(__thiscall*)(decltype(this), float, float, float)>(this, 28)(this, color[0], color[1], color[2]);
+    }
+};
+
+
+class IVModelRender
+{
+public:
+    virtual int DrawModel(int flags, void* pRenderable, uintptr_t instance, int entity_index,
+        const model_t* model, Vec3 const& origin, Vec3 const& angles, int skin, int body,
+        int hitboxset, const void* modelToWorld = NULL,
+        const void* pLightingOffset = NULL) = 0;
+
+    virtual void ForcedMaterialOverride(IMaterial* newMaterial, int nOverrideType = 0, int nOverrides = 0) = 0;
+    virtual bool IsForcedMaterialOverride(void) = 0;
+    virtual void SetViewTarget(const int* pStudioHdr, int nBodyIndex, const Vec3& target) = 0;
+    virtual uintptr_t CreateInstance(void* pRenderable, void* pCache = NULL) = 0;
+    virtual void DestroyInstance(uintptr_t handle) = 0;
+};
+
+class IVModelInfoClient
+{
+public:
+    inline void* GetModel(int Index)
+    {
+        return GetVirtualFunction<void* (__thiscall*)(void*, int)>(this, 1)(this, Index);
+    }
+
+    inline int GetModelIndex(const char* Filename)
+    {
+        return GetVirtualFunction<int(__thiscall*)(void*, const char*)>(this, 2)(this, Filename);
+    }
+
+    inline const char* GetModelName(const void* Model)
+    {
+        return GetVirtualFunction<const char* (__thiscall*)(void*, const void*)>(this, 3)(this, Model);
+    }
+    inline studiohdr_t* GetStudioModel(const model_t* model)
+    {
+        return GetVirtualFunction<studiohdr_t* (__thiscall*)(decltype(this), const model_t*) >(this, 32)(this, model);
+    }
+    void GetModelMaterials(const model_t* model, int count, IMaterial** ppMaterial)
+    {
+        GetVirtualFunction<void(__thiscall*)(decltype(this), const model_t*, int, IMaterial**) >(this, 18)(this, model, count, ppMaterial);
+    }
+};
+
+
+
+class IMaterialSystem
+{
+public:
+    const char* GetName()
+    {
+        return GetVirtualFunction< const char* (__thiscall*)(decltype(this)) >(this, 0)(this);
+    }
+
+    IMaterial* CreateMaterial(const char* material_name, void* kv)
+    {
+        return GetVirtualFunction< IMaterial* (__thiscall*)(decltype(this), const char*, void*) >(this, 83)(
+            this, material_name, kv);
+    }
+
+    IMaterial* FindMaterial(const char* material_name, const char* texture_group_name = nullptr, bool complain = true, const char* complain_prefix = nullptr)
+    {
+        return GetVirtualFunction< IMaterial* (__thiscall*)(decltype(this), const char*, const char*, bool, const char*) >(this, 84)(this, material_name, texture_group_name, complain, complain_prefix);
+    }
+
+    int FirstMaterial()
+    {
+        return GetVirtualFunction< int(__thiscall*)(decltype(this)) >(this, 86)(this);
+    }
+
+    int NextMaterial(int handle)
+    {
+        return GetVirtualFunction< int(__thiscall*)(decltype(this), int) >(this, 87)(this, handle);
+    }
+
+    int InvalidMaterial()
+    {
+        return GetVirtualFunction< int(__thiscall*)(decltype(this)) >(this, 88)(this);
+    }
+
+    IMaterial* GetMaterial(short handle)
+    {
+        return GetVirtualFunction< IMaterial* (__thiscall*)(decltype(this), short) >(this, 89)(this, handle);
+    }
+
+    void* FindTexture(char const* pTextureName, const char* pTextureGroupName, bool complain = true)
+    {
+        return GetVirtualFunction< void* (__thiscall*)(decltype(this), char const*, const char*, bool)
+        >(this, 91)(this, pTextureName, pTextureGroupName, complain);
+    }
+
+    void* GetRenderContext()
+    {
+        return GetVirtualFunction< void* (__thiscall*)(decltype(this)) >(this, 115)(this);
+    }
+};
+
+
 
 class Hack {
 public:
-	uintptr_t dwEntityList = 0x4DD0AB4;
-	uintptr_t dwViewMatrix = 0x4DC23B4;
-	uintptr_t dwLocalPlayer = 0xDB558C;
+	uintptr_t dwEntityList = 0x4DD1E1C;
+	uintptr_t dwViewMatrix = 0x4DC3734;
+	uintptr_t dwLocalPlayer = 0xDB65EC;
 	uintptr_t m_fFlags = 0x104;
     uintptr_t m_dwBoneMatrix = 0x26A8;
     uintptr_t m_vecVelocity = 0x114;
@@ -633,6 +1125,8 @@ public:
 	Ent* localEnt;
 	EntList* entList;
     EnemiesInfo enemies_list;
+    EntitiesS* entitiesE;
+
 
 	ID3DXLine* LineL;
 
@@ -640,10 +1134,10 @@ public:
 	//Model_Name Model_names[14];
 
 	Vec2 crosshair2D;
-	int crosshairSizeL = 16;
-	int crosshairSizeR = 16;
-	int crosshairSizeT = 16;
-	int crosshairSizeB = 16;
+	int crosshairSizeL = 7;
+	int crosshairSizeR = 7;
+	int crosshairSizeT = 7;
+	int crosshairSizeB = 7;
     bool wa;
     clock_t time, time2;
 
@@ -657,11 +1151,12 @@ public:
     Vec3 GetMyPos();
 	void Bunny();
 	void Init();
-	void Update();
+	void Update(void* ModelRenderVMT, IVModelRender* ModelRender);
     void EntityListReload();
     void Trigger();
 	bool CheckValidEnt(Ent* ent);
     bool CheckValidEntStart(Ent* ent);
+    bool CheckIfLocalEnt(Ent* ent);
 	bool WorldToScreen(Vec3 pos, Vec2& screen);
     bool WorldToScreen(Vec3& pos);
 	Vec3 GetBonePos(Ent* ent, int bone);
@@ -673,5 +1168,6 @@ public:
     //int FindClosestEnemy(Vec3* final);
     int FindClosestEnemyToCrosshair();
     void AimBot(int position);
+    void GetCurrentEntities(IClientEntityList* ClientEntityList);
 
 };

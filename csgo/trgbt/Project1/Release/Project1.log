@@ -1,70 +1,70 @@
 ﻿  hack.cpp
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(13,33): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(15,34): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(583,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(552): message : vea la declaración de 'Ent'
-D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(188,12): warning C4101: 'EnemieBoneMatrix': variable local sin referencia
-D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(348,14): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(349,12): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(352,25): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(353,23): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(354,21): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(13,33): warning C4081: expected 'newline'; found ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(15,34): warning C4081: expected 'newline'; found ';'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(614,15): warning C4099: 'Ent': type name first seen using 'class' now seen using 'struct'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(554): message : see declaration of 'Ent'
+D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(254,12): warning C4101: 'EnemieBoneMatrix': unreferenced local variable
+D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(414,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(415,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(418,25): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(419,23): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\hack.cpp(420,21): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
   drawing.cpp
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(13,33): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(15,34): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(583,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(552): message : vea la declaración de 'Ent'
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(2,1): warning C4005: 'SEGMENTS': redefinición de macro
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(17): message : vea la definición anterior de 'SEGMENTS'
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(3,1): warning C4005: 'LAYERS': redefinición de macro
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(18): message : vea la definición anterior de 'LAYERS'
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(22,28): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(22,24): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(23,28): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(23,24): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(24,24): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(31,35): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(31,28): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(31,21): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(31,14): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(34,35): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(34,28): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(34,21): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(34,14): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(120,17): warning C4101: 't': variable local sin referencia
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(192,18): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(193,18): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(194,18): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(202,16): warning C4244: 'return': conversión de 'double' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(248,26): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(249,26): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(329,55): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(330,55): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(338,53): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(339,53): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(352,40): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(13,33): warning C4081: expected 'newline'; found ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(15,34): warning C4081: expected 'newline'; found ';'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(614,15): warning C4099: 'Ent': type name first seen using 'class' now seen using 'struct'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(554): message : see declaration of 'Ent'
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(2,1): warning C4005: 'SEGMENTS': macro redefinition
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(17): message : see previous definition of 'SEGMENTS'
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(3,1): warning C4005: 'LAYERS': macro redefinition
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(18): message : see previous definition of 'LAYERS'
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(22,28): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(22,24): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(23,28): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(23,24): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(24,24): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(31,35): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(31,28): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(31,21): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(31,14): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(34,35): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(34,28): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(34,21): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(34,14): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(120,17): warning C4101: 't': unreferenced local variable
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(192,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(193,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(194,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(202,16): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(248,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(249,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(329,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(330,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(338,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(339,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\drawing.cpp(352,40): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   dx.cpp
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(13,33): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(15,34): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(583,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(552): message : vea la declaración de 'Ent'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(13,33): warning C4081: expected 'newline'; found ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(15,34): warning C4081: expected 'newline'; found ';'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(614,15): warning C4099: 'Ent': type name first seen using 'class' now seen using 'struct'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(554): message : see declaration of 'Ent'
   dllmain.cpp
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(13,33): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(15,34): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(583,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(552): message : vea la declaración de 'Ent'
-D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(194,42): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(194,30): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(200,39): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(201,40): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(88,14): warning C4101: 'Coords_bones': variable local sin referencia
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(13,33): warning C4081: expected 'newline'; found ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(15,34): warning C4081: expected 'newline'; found ';'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(614,15): warning C4099: 'Ent': type name first seen using 'class' now seen using 'struct'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(554): message : see declaration of 'Ent'
+D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(159,42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(159,30): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(163,39): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(164,40): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\PiMy internal\csgo\trgbt\Project1\dllmain.cpp(114,14): warning C4101: 'Coords_bones': unreferenced local variable
   hook.cpp
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(13,33): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\includes.h(15,34): warning C4081: se esperaba 'newline'; se encontró ';'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(583,12): warning C4099: 'Ent': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\PiMy internal\csgo\trgbt\Project1\hack.h(552): message : vea la declaración de 'Ent'
-  Generando código
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(13,33): warning C4081: expected 'newline'; found ';'
+D:\PiMy internal\csgo\trgbt\Project1\includes.h(15,34): warning C4081: expected 'newline'; found ';'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(614,15): warning C4099: 'Ent': type name first seen using 'class' now seen using 'struct'
+D:\PiMy internal\csgo\trgbt\Project1\hack.h(554): message : see declaration of 'Ent'
+  Generating code
   Previous IPDB not found, fall back to full compilation.
-  All 76 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Generación de código finalizada
+  All 136 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
   Project1.vcxproj -> D:\PiMy internal\csgo\trgbt\Release\Project1.dll

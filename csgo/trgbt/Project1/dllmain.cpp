@@ -43,17 +43,43 @@ int getCrosshairID(uintptr_t player) {
     return RPM<int>(player + m_iCrosshairId);
 }
 */
+typedef void* (__cdecl* tCreateInterface)(const char* name, int* returnCode);
+void* GetInterface(const char* dllname, const char* interfacename)
+{
+    tCreateInterface CreateInterface = (tCreateInterface)GetProcAddress(GetModuleHandle(dllname), "CreateInterface");
+
+    int returnCode = 0;
+    void* interfaceWek = CreateInterface(interfacename, &returnCode);
+
+    return interfaceWek;
+}
+
+typedef void* (__fastcall* _DrawModelExecute)(void* _this, void* edx, void* ctx, const DrawModelState_t& state, const ModelRenderInfo_t& pInfo, void* pCustomBoneToWorld);
+void __fastcall hkDrawModelExecute(void* _this, void* edx, void* ctx, const DrawModelState_t& state, const ModelRenderInfo_t& pInfo, void* pCustomBoneToWorld);
+
+void* ModelRenderVMT[25];
 void* d3d9Device[119];
 BYTE EndSceneBytes[7]{ 0 };
 tEndScene oEndScene = nullptr;
+_DrawModelExecute oDrawModelExecute = nullptr;
+
 extern LPDIRECT3DDEVICE9 pDevice = nullptr;
 Hack* hack;
+
+IVModelInfoClient* ModelInfoClient = (IVModelInfoClient*)GetInterface("engine.dll", "VModelInfoClient004");
+IVModelRender* ModelRender = (IVModelRender*)GetInterface("engine.dll", "VEngineModel016");
+IMaterialSystem* MaterialSystem = (IMaterialSystem*)GetInterface("materialsystem.dll", "VMaterialSystem080");
+
+
+
+IClientEntityList* ClientEntityList = (IClientEntityList*)GetInterface("client.dll", "VClientEntityList003");
 //std::atomic<bool> huha = false;
+
 
 void Trigger()
 {
     int CrosshairID = *(int*)(*hack->getLocalPlayer + m_iCrosshairId);
-    int CrosshairTeam = hack->entList->ents[CrosshairID - 1].ent->iTeamNum;
+    int CrosshairTeam = hack->entitiesE->enemyEnts[CrosshairID - 1]->iTeamNum;
     int LocalTeam = hack->localEnt->iTeamNum;
 
     if (CrosshairID > 0 && CrosshairID < 32 && LocalTeam != CrosshairTeam)
@@ -79,14 +105,17 @@ void Trigger()
 }
 
 
+
 void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
 
     if (!pDevice)
         pDevice = o_pDevice;
 
-    for (int i = 0; i < hack->enemies_list.countPlayers; i++) {
+    //for (int i = 0; i < 5; i++)
+    for (int i = 0; i < hack->enemies_list.countPlayers; i++)
+    {
         Vec2 Coords_bones[13];
-        Ent* curEnt = hack->entList->ents[hack->enemies_list.pos[i]].ent;
+        Ent* curEnt = hack->enemies_list.enemieentity[i];
         if (!hack->CheckValidEnt(curEnt))
             continue;
 
@@ -97,37 +126,7 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
         
         if (!(curEnt->iTeamNum == hack->localEnt->iTeamNum))
         {
-            /*
-            for (int i = 0; i < studio_hdr->hitbox_count; i++)
-            {
-                mstudiohitboxset_t* mstudiohitbox_set = studio_hdr->pHitboxSet(i);
-
-                for (int j = 0; j < mstudiohitbox_set->numhitboxes; j++)
-                {
-                    mstudiobbox_t* mstudio_bbox = mstudiohitbox_set->pHitbox(j);
-
-                    uintptr_t* aux = (uintptr_t*)(((uintptr_t)curEnt->boneMatrix) + 0x30 * ((uintptr_t)mstudio_bbox->bone));
-                    matrix3x4_t* bonematrix1 = (matrix3x4_t*)(aux);
-                    Vec3 vmin, vmax;
-                    VectorTransform_sdk(mstudio_bbox->bbmin, *bonematrix1, vmin);
-                    VectorTransform_sdk(mstudio_bbox->bbmax, *bonematrix1, vmax);
-
-                    if (mstudio_bbox->radius == -1)
-                    {
-                        DrawCube(vmax, vmin, 2, D3DCOLOR_ARGB(255, 255, 0, 0));
-                    }
-                    else
-                    {
-                        Vec3 vmin_3(vmin);
-                        Vec3 vmax_3(vmax);
-                        DrawCapsule(&vmin_3, &vmax_3, mstudio_bbox->radius, 2, D3DCOLOR_ARGB(255, 255, 0, 0), hack->halfSphere0, hack->halfSphere1);
-                    }
-                }
-            }
-            */
-
-
-
+         
             for (int i = 0; i < studio_hdr->bone_count; i++)
             {
                 mstudiobone_t* papyrusBone = studio_hdr->pBone(i);
@@ -135,12 +134,7 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
                 if ((papyrusBone->flags & BONE_USED_BY_HITBOX) && (papyrusBone->parent != -1))
                 {
                     Vec3 childSansBone3D = hack->GetBonePos(curEnt, i);
-                    //Vec3 childSansBone3D(papyrusBone->poseToBone[0][3], papyrusBone->poseToBone[1][3], papyrusBone->poseToBone[2][3]);
-                    //Vec3 childSansBone3D(papyrusBone->pos.x, papyrusBone->pos.y, papyrusBone->pos.z);
-                    //mstudiobone_t* fatherAlphysBone_t = studio_hdr->pBone(papyrusBone->parent);
-
-                    //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->poseToBone[0][3], fatherAlphysBone_t->poseToBone[1][3], fatherAlphysBone_t->poseToBone[2][3]);
-                    //Vec3 fatherAlphysBone3D(fatherAlphysBone_t->pos.x, fatherAlphysBone_t->pos.y, fatherAlphysBone_t->pos.z);
+                  
                     Vec3 fatherAlphysBone3D = hack->GetBonePos(curEnt, papyrusBone->parent);
 
                     Vec2 fatherAlphysBone2D, childSansBone2D;
@@ -163,40 +157,12 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
             color = D3DCOLOR_ARGB(255, 255, 0, 0);
 
         Vec2 entPos2D;
-        /*
-        bool lodibuja = true;
-        for (int i = 0; i < 13; i++)
-        {
-            if (!(hack->WorldToScreen(hack->GetBonePos(curEnt, hack->Bones[i]), Coords_bones[i])))
-            {
-                lodibuja = false;
-                break;
-            }
-        }
-        if (lodibuja)
-        {
-            DrawLine(Coords_bones[Cabeza_i], Coords_bones[Cuello_i], 10, color);
-            DrawLine(Coords_bones[Pelvis_i], Coords_bones[Cuello_i], 10, color);
-            DrawLine(Coords_bones[HombroD_i], Coords_bones[Cuello_i], 10, color);
-            DrawLine(Coords_bones[HombroI_i], Coords_bones[Cuello_i], 10, color);
-            DrawLine(Coords_bones[HombroD_i], Coords_bones[CodoD_i], 10, color);
-            DrawLine(Coords_bones[HombroI_i], Coords_bones[CodoI_i], 10, color);
-            DrawLine(Coords_bones[ManoD_i], Coords_bones[CodoD_i], 10, color);
-            DrawLine(Coords_bones[ManoI_i], Coords_bones[CodoI_i], 10, color);
-            DrawLine(Coords_bones[Pelvis_i], Coords_bones[RodillaI_i], 10, color);
-            DrawLine(Coords_bones[Pelvis_i], Coords_bones[RodillaD_i], 10, color);
-            DrawLine(Coords_bones[PieI_i], Coords_bones[RodillaI_i], 10, color);
-            DrawLine(Coords_bones[PieD_i], Coords_bones[RodillaD_i], 10, color);
-        }
-        */
-
+       
         if (hack->WorldToScreen(curEnt->vecOrigin, entPos2D))
             DrawLine(entPos2D.x, entPos2D.y, windowWidth / 2, windowHeight, 2, color);
     }
     
     //aqui se dibuja
-    //DrawFilledRect(25, 25, 100, 100, D3DCOLOR_ARGB(255, 255, 255, 255));
-    //DrawFilledRect(windowWidth / 2 - 2, windowHeight / 2 - 2, 4, 4, D3DCOLOR_ARGB(255, 255, 255, 255));
     hack->crosshair2D.x = windowWidth / 2;
     hack->crosshair2D.y = windowHeight / 2;
 
@@ -219,17 +185,104 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice) {
     oEndScene(pDevice);
 }
 
+
+
+void __fastcall hkDrawModelExecute(void* _this, void* edx, void* ctx, const DrawModelState_t& state, const ModelRenderInfo_t& pInfo, void* pCustomBoneToWorld)
+{
+    if (pInfo.pModel)
+    {
+        // The name of the model that is currently being rendered
+        //const char* modelName = ModelInfoClient->GetModelName(pInfo.pModel);
+        bool isEnemy = false;
+        for (int i = 0; i < hack->enemies_list.countPlayers; i++)
+        {
+            // Check if a player model is being rendered
+            if ((Ent*)ClientEntityList->GetClientEntity(pInfo.entity_index) == hack->enemies_list.enemieentity[i]) //aqui se pueden comparar indices de pInfo.entity_index con indices de entitiesE.ents[i]
+            {
+                // Get the Entity pointer of the player that is being rendered
+                // Forgot to mention you need ClientEntityList interface. If you don't have it you're a bad person since you didn't do the CreateInterface tutorial
+                Ent* modelEnt = (Ent*)ClientEntityList->GetClientEntity(pInfo.entity_index);
+
+                // Validity check (not dormant, alive, etc...)
+                if (!hack->CheckValidEnt(modelEnt))
+                {
+                    oDrawModelExecute(_this, edx, ctx, state, pInfo, pCustomBoneToWorld);
+                    return;
+                }
+
+                // Get the materials that we want to override this model with
+                IMaterial* matInvis = MaterialSystem->FindMaterial("models/inventory_items/wildfire_gold/wildfire_gold_detail");
+                IMaterial* matVis = MaterialSystem->FindMaterial("models/inventory_items/trophy_majors/crystal_clear");
+
+                // Draw material that will be visible through walls
+                if (matInvis)
+                {
+                    // This flag tells the game to draw the model even if it's behind a wall
+                    matInvis->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
+
+                    // Change the color of our Material (doesn't necessarily work on all materials)
+                    float colorInvis[3] = { 0.74f, 0.205f, 0.205f };
+                    matInvis->ColorModulate(colorInvis);
+                    // Set alpha value
+                    matInvis->AlphaModulate(1.f);
+
+                    // Override the material with ours
+                    ModelRender->ForcedMaterialOverride(matInvis);
+                    // By calling the original function here, we can have different materials for the non-visible and visible part of the model
+                    oDrawModelExecute(_this, edx, ctx, state, pInfo, pCustomBoneToWorld);
+                }
+
+                // Draw material for the part of the player model that is visible
+                if (matVis)
+                {
+                    // Don't let the material display through walls
+                    matVis->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, false);
+                    float colVis[3] = { 0.205f, 0.74f, 0.205f };
+                    matVis->ColorModulate(colVis);
+
+                    matVis->AlphaModulate(1.f);
+
+                    ModelRender->ForcedMaterialOverride(matVis);
+                    // Draw our visible material "on top" of our previous material
+                    oDrawModelExecute(_this, edx, ctx, state, pInfo, pCustomBoneToWorld);
+                }
+                isEnemy = true;
+                // Reset state
+                ModelRender->ForcedMaterialOverride(nullptr);
+            }
+        }
+        if (!isEnemy)
+        {
+            oDrawModelExecute(_this, edx, ctx, state, pInfo, pCustomBoneToWorld);
+            return;
+        }
+    }
+    
+}
+
 DWORD WINAPI MainThread(HMODULE hModule)
 {
-
+    
     if (GetD3D9Device(d3d9Device, sizeof(d3d9Device))) {
         memcpy(EndSceneBytes, (char*)d3d9Device[42], 7);
     
         oEndScene = (tEndScene)TrampHook((char*)d3d9Device[42], (char*)hkEndScene, 7);
     }
-
+    /*
+    if (GetModelRender(ModelRenderVMT, sizeof(ModelRenderVMT))) {
+        
+        
+    }
+    */
     hack = new Hack();
     hack->Init();
+    memcpy(ModelRenderVMT, *(void***)ModelRender, sizeof(ModelRenderVMT));
+    oDrawModelExecute = (_DrawModelExecute)TrampHook((char*)ModelRenderVMT[21], (char*)hkDrawModelExecute, 6);
+
+    
+   
+    
+    
 
     /*
     //Create Console
@@ -246,7 +299,7 @@ DWORD WINAPI MainThread(HMODULE hModule)
     
     while (true)
     {
-        hack->Update();
+        hack->Update(ModelRenderVMT,ModelRender);
         int closestEnemy = hack->FindClosestEnemyToCrosshair();
         if (GetAsyncKeyState(VK_END) & 1)
         {
@@ -282,14 +335,16 @@ DWORD WINAPI MainThread(HMODULE hModule)
         if (GetAsyncKeyState(VK_F1))
         {
             hack->EntityListReload();
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
     Patch((BYTE*)d3d9Device[42], EndSceneBytes, 7);
 
     //fclose(f);
     //FreeConsole();
+    
     FreeLibraryAndExitThread(hModule, 0);
-    Sleep(100);
+    Sleep(4000);
     return 0;
 }
 
@@ -305,6 +360,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
+       // return TRUE;
         break;
     }
     return TRUE;

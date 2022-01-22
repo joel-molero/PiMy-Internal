@@ -27,6 +27,31 @@ HWND GetProcessWindow() {
 
 	return window;
 }
+/*
+bool GetModelRender(void** VMTable, size_t size) {
+	if (!VMTable)
+		return false;
+
+	
+
+	if (!ModelInfoClient)
+		return false;
+
+	IVModelRender* ModelRender = (IVModelRender*)GetInterface("engine.dll", "VEngineModel016");
+
+	if (!ModelRender)
+		return false;
+
+	IMaterialSystem* MaterialSystem = (IMaterialSystem*)GetInterface("materialsystem.dll", "VMaterialSystem080");
+
+	if (!MaterialSystem)
+		return false;
+
+	memcpy(VMTable, *(void***)ModelRender, sizeof(VMTable));
+	return true;
+
+}
+*/
 
 bool GetD3D9Device(void** pTable, size_t size) {
 	if (!pTable)
@@ -61,3 +86,4 @@ bool GetD3D9Device(void** pTable, size_t size) {
 	pD3D->Release();
 	return true;
 }
+
